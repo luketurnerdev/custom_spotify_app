@@ -119,41 +119,26 @@ document.getElementById("generate-playlist").addEventListener('click', function(
     console.log('post a playlist');
     console.log(`access token: ${access_token}`);
     $.ajax({
-        // type: 'POST',
-        // url: ("https://api.spotify.com/v1/users/1237320388/playlists"),
-        // data: "jsonData",
-        // headers: {
-        //     'Authorization': 'Bearer ' + access_token,
-        //     'Content-Type': "application/json"
-        // },
 
-        // body: {
-        //     'name': 'Get Lit Playlist'
-        // },
-        // success: function(response) {
-        //     console.log('success');
-        //     console.log(response);
-        // }
-
-  type: 'POST',
-  url: "https://api.spotify.com/v1/users/1237320388/playlists",
-  data: jsonData,
-  dataType: 'json',
-  headers: {
-    'Authorization': 'Bearer ' + access_token,
-    'Content-Type': "application/json"
-  },
-  body: {
-      'name': "My sweet playlist"
-  },
-  success: function(result) {
-    console.log('Woo! :)');
-    console.log(result);
-  },
-  error: function(error) {
-    console.log('Error! :(');
-    console.log(error.responseText);
-  }
+    type: 'POST',
+    url: "https://api.spotify.com/v1/users/1237320388/playlists",
+    data: jsonData,
+    dataType: 'json',
+    headers: {
+        'Authorization': 'Bearer ' + access_token,
+        'Content-Type': "application/json"
+    },
+    body: {
+        'name': "My sweet playlist"
+    },
+    success: function(result) {
+        console.log('Woo! :)');
+        console.log(result);
+    },
+    error: function(error) {
+        console.log('Error! :(');
+        console.log(error.responseText);
+    }
     
     });
 });
