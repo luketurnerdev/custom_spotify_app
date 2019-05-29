@@ -115,7 +115,8 @@ document.getElementById('fetch-user-tracks-long').addEventListener('click', func
 
 
 document.getElementById("generate-playlist").addEventListener('click', function() {
-    var jsonData = "{\"name\":\"Cool ass playlist\", \"public\":true}";
+    var playlistID = "";
+    var jsonData = "{\"name\":\"Best one\", \"public\":true}";
     console.log('post a playlist');
     console.log(`access token: ${access_token}`);
     $.ajax({
@@ -129,11 +130,15 @@ document.getElementById("generate-playlist").addEventListener('click', function(
         'Content-Type': "application/json"
     },
     body: {
-        'name': "My sweet playlist"
+        'name': "Best one"
     },
     success: function(result) {
+ 
+        //store the new playlist in a variable
         console.log('Woo! :)');
-        console.log(result);
+        playlistID = (result.id);
+
+
     },
     error: function(error) {
         console.log('Error! :(');
@@ -143,6 +148,33 @@ document.getElementById("generate-playlist").addEventListener('click', function(
     });
 });
 
+document.getElementById("add-song-to-playlist").addEventListener('click', function(playlistID) {
+  
+  $.ajax({
+
+    type: 'POST',
+    url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks?uris=spotify:track:4iV5W9uYEdYUVa79Axb7Rh`,
+    dataType: 'text',
+    headers: {
+        'Authorization': 'Bearer ' + access_token
+    },
+    
+    success: function(result) {
+
+        //store the new playlist in a variable
+        console.log('Woo! :)');
+        console.log(result);
+
+
+    },
+    error: function(error) {
+        console.log('Error! :(');
+        console.log(error.responseText);
+    }
+    
+    });
+});
+// {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh", "spotify:track:1301WleyT98MSxVHPZCA6M"]}
 
 
 document.getElementById('obtain-new-token').addEventListener('click', function() {
