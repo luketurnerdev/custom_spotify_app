@@ -31,6 +31,7 @@
   //Playlist variables
 
   var playlistId = "";
+  var newPlaylistURIs = [];
 
 
   
@@ -65,18 +66,20 @@
     document.getElementById('fetch-user-tracks-short').addEventListener('click', function() {
   $.ajax({
       //Get the tracks with a specific limit and time range
-      url: ('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=20') ,
+      url: ('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5') ,
       headers: {
         'Authorization': 'Bearer ' + access_token
       },
       success: function(response) {
-        let tracks = [];
+
         for (let i=0; i<response.items.length; i++){
 
           let newTrack = document.createElement("li");
           document.getElementById("tracks-container").appendChild(newTrack);
           newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
+          newPlaylistURIs.push (response.items[i].uri);
         }
+        console.log(newPlaylistURIs.join());
       }
   });
 });
@@ -156,11 +159,11 @@ error: function(error) {
 });
 
 document.getElementById("add-song-to-playlist").addEventListener('click', function() {
-
+// var uris = "uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh,spotify%3Atrack%3A1301WleyT98MSxVHPZCA6M";
 $.ajax({
 
 type: 'POST',
-url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=spotify:track:4iV5W9uYEdYUVa79Axb7Rh`,
+url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
 dataType: 'text',
 headers: {
   'Authorization': 'Bearer ' + access_token
