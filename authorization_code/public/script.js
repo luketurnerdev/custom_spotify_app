@@ -84,9 +84,11 @@
   });
 });
 
+//User ID variable
 var id = "";
 
-document.getElementById("generate-playlist").addEventListener('click', function() {
+//
+document.getElementById("generate-playlist").addEventListener('click', function generatePlaylist() {
 var jsonData = "{\"name\":\"Best one\", \"public\":true}";
 //Get user id 
 
@@ -133,6 +135,7 @@ error: function(error) {
 });
 });
 
+
 document.getElementById("add-song-to-playlist").addEventListener('click', function() {
 // var uris = "uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh,spotify%3Atrack%3A1301WleyT98MSxVHPZCA6M";
 $.ajax({
@@ -157,12 +160,9 @@ error: function(error) {
   console.log(error.responseText);
 }
 
+  });
 });
-});
-// {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh", "spotify:track:1301WleyT98MSxVHPZCA6M"]}
-document.getElementById("get-user-id").addEventListener('click', function() {
-    
-})
+
 
 document.getElementById('obtain-new-token').addEventListener('click', function() {
 $.ajax({
