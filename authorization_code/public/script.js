@@ -33,6 +33,8 @@
   var playlistId = "";
   var newPlaylistURIs = [];
 
+  
+
 
   
 
@@ -63,34 +65,37 @@
         $('#login').show();
         $('#loggedin').hide();
     }
-    document.getElementById('fetch-user-tracks-short').addEventListener('click', function() {
+
+    /// Button Calls ///
+
+    document.getElementById('fetch-user-tracks-short').addEventListener('click', fetchUserTracks);
+  
+
+
+function fetchUserTracks() {
   $.ajax({
-      //Get the tracks with a specific limit and time range
-      url: ('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5') ,
-      headers: {
-        'Authorization': 'Bearer ' + access_token
-      },
-      success: function(response) {
+    //Get the tracks with a specific limit and time range
+    url: ('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5') ,
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+    success: function(response) {
 
-        for (let i=0; i<response.items.length; i++){
+      for (let i=0; i<response.items.length; i++){
 
-          let newTrack = document.createElement("li");
-          document.getElementById("tracks-container").appendChild(newTrack);
-          newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
-          newPlaylistURIs.push (response.items[i].uri);
-        }
-        console.log(newPlaylistURIs.join());
+        let newTrack = document.createElement("li");
+        document.getElementById("tracks-container").appendChild(newTrack);
+        newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
+        newPlaylistURIs.push (response.items[i].uri);
       }
-  });
+      console.log(newPlaylistURIs.join());
+    }
 });
+}
 
-//User ID variable
-var id = "";
+function getUserID() {
 
-//
-document.getElementById("generate-playlist").addEventListener('click', function generatePlaylist() {
-var jsonData = "{\"name\":\"Best one\", \"public\":true}";
-//Get user id 
+  //Get user id 
 
 $.ajax({
   type: 'GET',
@@ -101,11 +106,18 @@ $.ajax({
   success: function(response) {
     //TODO - add the user id to a variable to be used elsewhere, make this global?
     id = response.id;
+    console.log(id);
 
   }
 });
+}
 
-$.ajax({
+document.getElementById("get-user-id").addEventListener('click', getUserID());
+
+function generatePlaylist() {
+  var jsonData = `{\"name\":\"${playlistName}\", \"public\":true}`;
+  $.ajax({
+
 
   type: 'POST',
   url: `https://api.spotify.com/v1/users/${id}/playlists`,
@@ -132,12 +144,18 @@ error: function(error) {
   console.log(error.responseText);
 }
 
-});
-});
+  });
+}
 
+//User ID variable
+var id = "";
+var playlistName = "Default playlist name";
+
+
+document.getElementById("generate-playlist").addEventListener('click', generatePlaylist());
 
 document.getElementById("add-song-to-playlist").addEventListener('click', function() {
-// var uris = "uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh,spotify%3Atrack%3A1301WleyT98MSxVHPZCA6M";
+
 $.ajax({
 
 type: 'POST',
