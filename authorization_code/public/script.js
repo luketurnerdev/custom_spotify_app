@@ -28,19 +28,16 @@
       refresh_token = params.refresh_token,
       error = params.error;
 
-  //Playlist variables
-
-  var playlistId = "";
-  var newPlaylistURIs = [];
-
   
 
 
-  
 
-  if (error) {
+
+if (error) {
     alert('There was an error during the authentication');
-  } else {
+  } else 
+  {
+
     if (access_token) {
       // render oauth info
       oauthPlaceholder.innerHTML = oauthTemplate({
@@ -66,9 +63,18 @@
         $('#loggedin').hide();
     }
 
-    /// Button Calls ///
+  //Playlist variables
 
-    document.getElementById('fetch-user-tracks-short').addEventListener('click', fetchUserTracks);
+  var playlistId = "";
+  var newPlaylistURIs = [];
+
+  //User variables
+
+  //User ID variable
+  var id = "";
+  var playlistName = "Default playlist name";
+
+/// Function definitions ///
   
 
 
@@ -95,8 +101,6 @@ function fetchUserTracks() {
 
 function getUserID() {
 
-  //Get user id 
-
 $.ajax({
   type: 'GET',
   url: 'https://api.spotify.com/v1/me',
@@ -104,17 +108,47 @@ $.ajax({
     'Authorization': 'Bearer ' + access_token
   },
   success: function(response) {
-    //TODO - add the user id to a variable to be used elsewhere, make this global?
+    //Returns the ID to be used by other functions
     id = response.id;
-    console.log(id);
+    console.log("User id: " + id);
+
 
   }
 });
 }
 
-document.getElementById("get-user-id").addEventListener('click', getUserID());
+function addTopTracksToPlaylist() {
+  $.ajax({
+
+    type: 'POST',
+    url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
+    dataType: 'text',
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+    
+    success: function(result) {
+    
+      //store the new playlist in a variable
+      console.log('Woo! :)');
+      console.log(result);
+    
+    
+    },
+    error: function(error) {
+      console.log('Error! :(');
+      console.log(error.responseText);
+    }
+    
+      });
+}
+
 
 function generatePlaylist() {
+
+  //Fetch the user ID to be used //
+  getUserID();
+  console.log('fetched id of ' + id);
   var jsonData = `{\"name\":\"${playlistName}\", \"public\":true}`;
   $.ajax({
 
@@ -147,54 +181,41 @@ error: function(error) {
   });
 }
 
-//User ID variable
-var id = "";
-var playlistName = "Default playlist name";
-
-
-document.getElementById("generate-playlist").addEventListener('click', generatePlaylist());
-
-document.getElementById("add-song-to-playlist").addEventListener('click', function() {
-
-$.ajax({
-
-type: 'POST',
-url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
-dataType: 'text',
-headers: {
-  'Authorization': 'Bearer ' + access_token
-},
-
-success: function(result) {
-
-  //store the new playlist in a variable
-  console.log('Woo! :)');
-  console.log(result);
-
-
-},
-error: function(error) {
-  console.log('Error! :(');
-  console.log(error.responseText);
+function obtainNewToken() {
+  $.ajax({
+    url: '/refresh_token',
+    data: {
+      'refresh_token': refresh_token
+    }
+    }).done(function(data) {
+    access_token = data.access_token;
+    oauthPlaceholder.innerHTML = oauthTemplate({
+      access_token: access_token,
+      refresh_token: refresh_token
+    });
+    });
 }
 
-  });
-});
 
 
-document.getElementById('obtain-new-token').addEventListener('click', function() {
-$.ajax({
-url: '/refresh_token',
-data: {
-  'refresh_token': refresh_token
-}
-}).done(function(data) {
-access_token = data.access_token;
-oauthPlaceholder.innerHTML = oauthTemplate({
-  access_token: access_token,
-  refresh_token: refresh_token
-});
-});
-}, false);
+
+
+
+
+/// Button Calls ///
+
+document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
+
+document.getElementById('fetch-user-tracks-short').addEventListener('click', fetchUserTracks);
+
+document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
+
+document.getElementById("add-song-to-playlist").addEventListener('click', addTopTracksToPlaylist);
+
+document.getElementById("get-user-id").addEventListener('click', getUserID);
+
+
+
+
 }
 })();
