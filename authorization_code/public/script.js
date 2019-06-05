@@ -1,3 +1,9 @@
+//Global vars
+
+var userID = "";
+
+
+
 (function() {
 
   /**
@@ -70,9 +76,7 @@ if (error) {
 
   //User variables
 
-  //User ID variable
-  var id = "";
-  var playlistName = "Default playlist name";
+ 
 
 /// Function definitions ///
   
@@ -101,20 +105,22 @@ function fetchUserTracks() {
 
 function getUserID() {
 
-$.ajax({
-  type: 'GET',
-  url: 'https://api.spotify.com/v1/me',
-  headers: {
-    'Authorization': 'Bearer ' + access_token
-  },
-  success: function(response) {
-    //Returns the ID to be used by other functions
-    id = response.id;
-    console.log("User id: " + id);
+  return $.ajax({
+    type: 'GET',
+    url: 'https://api.spotify.com/v1/me',
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+    success: function(response) {
+      //Returns the ID to be used by other functions
+      
+      userID = response.id;
+    }
+    
+
+  });
 
 
-  }
-});
 }
 
 function addTopTracksToPlaylist() {
@@ -146,39 +152,57 @@ function addTopTracksToPlaylist() {
 
 function generatePlaylist() {
 
-  //Fetch the user ID to be used //
-  getUserID();
-  console.log('fetched id of ' + id);
-  var jsonData = `{\"name\":\"${playlistName}\", \"public\":true}`;
-  $.ajax({
+  //Fetch the user ID to be used using returned promise of getUserID //
+
+  //If the user ID is valid, make the post request //
+
+  getUserID().then(function(data) {
+    var playlistName = "Default playlist name";
+    var details = data;
+    userID = details.id;
+    console.log('fetched id of ' + userID);
+
+    var jsonData = `{\"name\":\"${playlistName}\", \"public\":true}`;
+  
+      $.ajax({
+      type: 'POST',
+        url: `https://api.spotify.com/v1/users/${userID}/playlists`,
+        data: jsonData,
+        dataType: 'json',
+        headers: {
+          'Authorization': 'Bearer ' + access_token,
+          'Content-Type': "application/json"
+        },
+        body: {
+          'name': "flippin heck"
+        },
+        success: function(result) {
+
+          //store the new playlist in a variable
+          console.log('Woo! :)');
+          playlistId = (result.id);
+          console.log("id:" + playlistId);
 
 
-  type: 'POST',
-  url: `https://api.spotify.com/v1/users/${id}/playlists`,
-  data: jsonData,
-  dataType: 'json',
-  headers: {
-    'Authorization': 'Bearer ' + access_token,
-    'Content-Type': "application/json"
-  },
-  body: {
-    'name': "flippin heck"
-  },
-  success: function(result) {
+      },
+    error: function(error) {
+      console.log('Error! :(');
+      console.log(error.responseText);
+    }
 
-    //store the new playlist in a variable
-    console.log('Woo! :)');
-    playlistId = (result.id);
-    console.log("id:" + playlistId);
+      });
 
 
-},
-error: function(error) {
-  console.log('Error! :(');
-  console.log(error.responseText);
-}
 
-  });
+
+
+
+
+
+});
+
+
+//   
 }
 
 function obtainNewToken() {
