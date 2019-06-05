@@ -83,7 +83,7 @@ if (error) {
 
 
 function fetchUserTracks() {
-  $.ajax({
+  return $.ajax({
     //Get the tracks with a specific limit and time range
     url: ('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5') ,
     headers: {
@@ -91,14 +91,7 @@ function fetchUserTracks() {
     },
     success: function(response) {
 
-      for (let i=0; i<response.items.length; i++){
-
-        let newTrack = document.createElement("li");
-        document.getElementById("tracks-container").appendChild(newTrack);
-        newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
-        newPlaylistURIs.push (response.items[i].uri);
-      }
-      console.log(newPlaylistURIs.join());
+      console.log('successfully fetched user tracks');
     }
 });
 }
@@ -124,29 +117,7 @@ function getUserID() {
 }
 
 function addTopTracksToPlaylist() {
-  $.ajax({
-
-    type: 'POST',
-    url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
-    dataType: 'text',
-    headers: {
-      'Authorization': 'Bearer ' + access_token
-    },
-    
-    success: function(result) {
-    
-      //store the new playlist in a variable
-      console.log('Woo! :)');
-      console.log(result);
-    
-    
-    },
-    error: function(error) {
-      console.log('Error! :(');
-      console.log(error.responseText);
-    }
-    
-      });
+  
 }
 
 
@@ -154,7 +125,7 @@ function generatePlaylist() {
 
   //Fetch the user ID to be used using returned promise of getUserID //
 
-  //If the user ID is valid, make the post request //
+  //If the user ID is valid, make the post request for empty playlist //
 
   getUserID().then(function(data) {
     var playlistName = "Default playlist name";
@@ -174,7 +145,7 @@ function generatePlaylist() {
           'Content-Type': "application/json"
         },
         body: {
-          'name': "flippin heck"
+          'name': playlistName,
         },
         success: function(result) {
 
@@ -182,6 +153,49 @@ function generatePlaylist() {
           console.log('Woo! :)');
           playlistId = (result.id);
           console.log("id:" + playlistId);
+
+          fetchUserTracks().then(function(response) {
+            let successHeader = document.createElement("h2");
+            document.getElementById("tracks-container").appendChild(successHeader);
+            successHeader.innerHTML = "Successfully created playlist with the following tracks:"
+            //Add the URIs of top tracks to an array
+            for (let i=0; i<response.items.length; i++){
+
+              let newTrack = document.createElement("li");
+              document.getElementById("tracks-container").appendChild(newTrack);
+              newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
+              newPlaylistURIs.push (response.items[i].uri);
+            }
+            console.log(newPlaylistURIs.join());
+
+            //Add the tracks to the new playlist
+
+            $.ajax({
+
+              type: 'POST',
+              url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
+              dataType: 'text',
+              headers: {
+                'Authorization': 'Bearer ' + access_token
+              },
+              
+              success: function(result) {
+              
+                //store the new playlist in a variable
+                console.log('successfully posted top tracks to new playlist');
+                console.log(result);
+              
+              
+              },
+              error: function(error) {
+                console.log('Error! :(');
+                console.log(error.responseText);
+              }
+              
+            });
+          })
+
+          
 
 
       },
@@ -230,13 +244,7 @@ function obtainNewToken() {
 
 document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
 
-document.getElementById('fetch-user-tracks-short').addEventListener('click', fetchUserTracks);
-
 document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
-
-document.getElementById("add-song-to-playlist").addEventListener('click', addTopTracksToPlaylist);
-
-document.getElementById("get-user-id").addEventListener('click', getUserID);
 
 
 
