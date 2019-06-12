@@ -2,6 +2,9 @@
 
 var userID = "";
 
+let selectedAmount;
+let selectedTime;
+
 
 
 (function() {
@@ -85,7 +88,7 @@ if (error) {
 function fetchUserTracks() {
   return $.ajax({
     //Get the tracks with a specific limit and time range
-    url: ('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5') ,
+    url: (`https://api.spotify.com/v1/me/top/tracks?time_range=${selectedTime}&limit=${selectedAmount}`) ,
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
@@ -116,19 +119,26 @@ function getUserID() {
 
 }
 
-function addTopTracksToPlaylist() {
-  
-}
+// function saveTrackData() {
+//   console.log($("#myField").val());
+// }
 
+  //Check if this playlist has already been generated
+  var playlistGenerated = false;
 
 function generatePlaylist() {
 
+
   //Fetch the user ID to be used using returned promise of getUserID //
 
-  //If the user ID is valid, make the post request for empty playlist //
+  //If the user ID is valid, make the post request for new empty playlist //
+  
+if (!playlistGenerated) {
+
 
   getUserID().then(function(data) {
-    var playlistName = "Default playlist name";
+    var playlistName = `Top ${selectedAmount} tracks of the last ${selectedTime} months`;
+    console.log(`playlist is called ${playlistName}`);
     var details = data;
     userID = details.id;
     console.log('fetched id of ' + userID);
@@ -148,9 +158,10 @@ function generatePlaylist() {
           'name': playlistName,
         },
         success: function(result) {
+          playlistGenerated = true;
 
           //store the new playlist in a variable
-          console.log('Woo! :)');
+          console.log('Woo! :)', playlistGenerated);
           playlistId = (result.id);
           console.log("id:" + playlistId);
 
@@ -194,10 +205,6 @@ function generatePlaylist() {
               
             });
           })
-
-          
-
-
       },
     error: function(error) {
       console.log('Error! :(');
@@ -205,18 +212,12 @@ function generatePlaylist() {
     }
 
       });
-
-
-
-
-
-
-
-
 });
 
-
-//   
+} else {
+  console.log ('Playlist has already been made');
+}
+  
 }
 
 function obtainNewToken() {
@@ -245,6 +246,55 @@ function obtainNewToken() {
 document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
 
 document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
+
+document.getElementById("time-selector").addEventListener('click', saveTimeData);
+document.getElementById("amount-of-tracks").addEventListener('click', saveTrackAmount);
+
+
+
+
+function saveTimeData() {
+
+  let timeArr = document.getElementsByName("time-period");
+  timeArr.forEach((element) =>{
+    if (element.checked === true) {
+      selectedTime = element.value;
+    };
+
+    switch (selectedTime) {
+      case ("1-month"):
+        selectedTime = "short_term";
+        break;
+
+      case ("6-months"):
+      selectedTime = "medium_term";
+      break;
+
+      case ("12-months"):
+      selectedTime = "long_term";
+        break;
+
+      default:
+        // console.log('no time defined');
+    }
+
+    console.log(selectedTime);
+
+  });
+
+  
+  
+}
+function saveTrackAmount() {
+
+  let trackArr = document.getElementsByName("track-amount");
+  trackArr.forEach((element) =>{
+    if (element.checked === true) {
+      selectedAmount = element.value;
+    };
+    
+  });
+}
 
 
 
