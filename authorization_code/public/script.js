@@ -1,3 +1,12 @@
+//Global vars
+
+var userID = "";
+
+let selectedAmount;
+let selectedTime;
+
+
+
 (function() {
 
   /**
@@ -28,17 +37,16 @@
       refresh_token = params.refresh_token,
       error = params.error;
 
-  //Playlist variables
-
-  var playlistId = "";
-  var newPlaylistURIs = [];
-
-
   
 
-  if (error) {
+
+
+
+if (error) {
     alert('There was an error during the authentication');
-  } else {
+  } else 
+  {
+
     if (access_token) {
       // render oauth info
       oauthPlaceholder.innerHTML = oauthTemplate({
@@ -63,120 +71,233 @@
         $('#login').show();
         $('#loggedin').hide();
     }
-    document.getElementById('fetch-user-tracks-short').addEventListener('click', function() {
-  $.ajax({
-      //Get the tracks with a specific limit and time range
-      url: ('https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5') ,
-      headers: {
-        'Authorization': 'Bearer ' + access_token
-      },
-      success: function(response) {
 
-        for (let i=0; i<response.items.length; i++){
+  //Playlist variables
 
-          let newTrack = document.createElement("li");
-          document.getElementById("tracks-container").appendChild(newTrack);
-          newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
-          newPlaylistURIs.push (response.items[i].uri);
-        }
-        console.log(newPlaylistURIs.join());
-      }
-  });
+  var playlistId = "";
+  var newPlaylistURIs = [];
+
+  //User variables
+
+ 
+
+/// Function definitions ///
+  
+
+
+function fetchUserTracks() {
+  return $.ajax({
+    //Get the tracks with a specific limit and time range
+    url: (`https://api.spotify.com/v1/me/top/tracks?time_range=${selectedTime}&limit=${selectedAmount}`) ,
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+    success: function(response) {
+
+      console.log('successfully fetched user tracks');
+    }
 });
-
-var id = "";
-
-document.getElementById("generate-playlist").addEventListener('click', function() {
-var jsonData = "{\"name\":\"Best one\", \"public\":true}";
-//Get user id 
-
-$.ajax({
-  type: 'GET',
-  url: 'https://api.spotify.com/v1/me',
-  headers: {
-    'Authorization': 'Bearer ' + access_token
-  },
-  success: function(response) {
-    //TODO - add the user id to a variable to be used elsewhere, make this global?
-    id = response.id;
-
-  }
-});
-
-$.ajax({
-
-  type: 'POST',
-  url: `https://api.spotify.com/v1/users/${id}/playlists`,
-  data: jsonData,
-  dataType: 'json',
-  headers: {
-    'Authorization': 'Bearer ' + access_token,
-    'Content-Type': "application/json"
-  },
-  body: {
-    'name': "flippin heck"
-  },
-  success: function(result) {
-
-    //store the new playlist in a variable
-    console.log('Woo! :)');
-    playlistId = (result.id);
-    console.log("id:" + playlistId);
-
-
-},
-error: function(error) {
-  console.log('Error! :(');
-  console.log(error.responseText);
 }
 
-});
-});
+function getUserID() {
 
-document.getElementById("add-song-to-playlist").addEventListener('click', function() {
-// var uris = "uris=spotify%3Atrack%3A4iV5W9uYEdYUVa79Axb7Rh,spotify%3Atrack%3A1301WleyT98MSxVHPZCA6M";
-$.ajax({
-
-type: 'POST',
-url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
-dataType: 'text',
-headers: {
-  'Authorization': 'Bearer ' + access_token
-},
-
-success: function(result) {
-
-  //store the new playlist in a variable
-  console.log('Woo! :)');
-  console.log(result);
-
-
-},
-error: function(error) {
-  console.log('Error! :(');
-  console.log(error.responseText);
-}
-
-});
-});
-// {"uris": ["spotify:track:4iV5W9uYEdYUVa79Axb7Rh", "spotify:track:1301WleyT98MSxVHPZCA6M"]}
-document.getElementById("get-user-id").addEventListener('click', function() {
+  return $.ajax({
+    type: 'GET',
+    url: 'https://api.spotify.com/v1/me',
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+    success: function(response) {
+      //Returns the ID to be used by other functions
+      
+      userID = response.id;
+    }
     
-})
 
-document.getElementById('obtain-new-token').addEventListener('click', function() {
-$.ajax({
-url: '/refresh_token',
-data: {
-  'refresh_token': refresh_token
+  });
+
+
 }
-}).done(function(data) {
-access_token = data.access_token;
-oauthPlaceholder.innerHTML = oauthTemplate({
-  access_token: access_token,
-  refresh_token: refresh_token
+
+// function saveTrackData() {
+//   console.log($("#myField").val());
+// }
+
+  //Check if this playlist has already been generated
+  var playlistGenerated = false;
+
+function generatePlaylist() {
+
+
+  //Fetch the user ID to be used using returned promise of getUserID //
+
+  //If the user ID is valid, make the post request for new empty playlist //
+  
+if (!playlistGenerated) {
+
+
+  getUserID().then(function(data) {
+    var playlistName = `Top ${selectedAmount} tracks of the last ${selectedTime} months`;
+    console.log(`playlist is called ${playlistName}`);
+    var details = data;
+    userID = details.id;
+    console.log('fetched id of ' + userID);
+
+    var jsonData = `{\"name\":\"${playlistName}\", \"public\":true}`;
+  
+      $.ajax({
+      type: 'POST',
+        url: `https://api.spotify.com/v1/users/${userID}/playlists`,
+        data: jsonData,
+        dataType: 'json',
+        headers: {
+          'Authorization': 'Bearer ' + access_token,
+          'Content-Type': "application/json"
+        },
+        body: {
+          'name': playlistName,
+        },
+        success: function(result) {
+          playlistGenerated = true;
+
+          //store the new playlist in a variable
+          console.log('Woo! :)', playlistGenerated);
+          playlistId = (result.id);
+          console.log("id:" + playlistId);
+
+          fetchUserTracks().then(function(response) {
+            let successHeader = document.createElement("h2");
+            document.getElementById("tracks-container").appendChild(successHeader);
+            successHeader.innerHTML = "Successfully created playlist with the following tracks:"
+            //Add the URIs of top tracks to an array
+            for (let i=0; i<response.items.length; i++){
+
+              let newTrack = document.createElement("li");
+              document.getElementById("tracks-container").appendChild(newTrack);
+              newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
+              newPlaylistURIs.push (response.items[i].uri);
+            }
+            console.log(newPlaylistURIs.join());
+
+            //Add the tracks to the new playlist
+
+            $.ajax({
+
+              type: 'POST',
+              url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
+              dataType: 'text',
+              headers: {
+                'Authorization': 'Bearer ' + access_token
+              },
+              
+              success: function(result) {
+              
+                //store the new playlist in a variable
+                console.log('successfully posted top tracks to new playlist');
+                console.log(result);
+              
+              
+              },
+              error: function(error) {
+                console.log('Error! :(');
+                console.log(error.responseText);
+              }
+              
+            });
+          })
+      },
+    error: function(error) {
+      console.log('Error! :(');
+      console.log(error.responseText);
+    }
+
+      });
 });
-});
-}, false);
+
+} else {
+  console.log ('Playlist has already been made');
+}
+  
+}
+
+function obtainNewToken() {
+  $.ajax({
+    url: '/refresh_token',
+    data: {
+      'refresh_token': refresh_token
+    }
+    }).done(function(data) {
+    access_token = data.access_token;
+    oauthPlaceholder.innerHTML = oauthTemplate({
+      access_token: access_token,
+      refresh_token: refresh_token
+    });
+    });
+}
+
+
+
+
+
+
+
+/// Button Calls ///
+
+document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
+
+document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
+
+document.getElementById("time-selector").addEventListener('click', saveTimeData);
+document.getElementById("amount-of-tracks").addEventListener('click', saveTrackAmount);
+
+
+
+
+function saveTimeData() {
+
+  let timeArr = document.getElementsByName("time-period");
+  timeArr.forEach((element) =>{
+    if (element.checked === true) {
+      selectedTime = element.value;
+    };
+
+    switch (selectedTime) {
+      case ("1-month"):
+        selectedTime = "short_term";
+        break;
+
+      case ("6-months"):
+      selectedTime = "medium_term";
+      break;
+
+      case ("12-months"):
+      selectedTime = "long_term";
+        break;
+
+      default:
+        // console.log('no time defined');
+    }
+
+    console.log(selectedTime);
+
+  });
+
+  
+  
+}
+function saveTrackAmount() {
+
+  let trackArr = document.getElementsByName("track-amount");
+  trackArr.forEach((element) =>{
+    if (element.checked === true) {
+      selectedAmount = element.value;
+    };
+    
+  });
+}
+
+
+
+
 }
 })();
