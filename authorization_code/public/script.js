@@ -1,8 +1,6 @@
 //Global vars
 
 var userID = "";
-let reccomendations = [];
-
 
 let selectedAmount;
 let selectedTime;
@@ -128,13 +126,12 @@ if (!playlistGenerated) {
   getUserID().then(function(data) {
     var playlistName = `Top ${selectedAmount} tracks of the last ${selectedTime} months`;
     console.log(`playlist is called ${playlistName}`);
-    // var details = data;
-    userID = data.id;
+    var details = data;
+    userID = details.id;
     console.log('fetched id of ' + userID);
 
     var jsonData = `{\"name\":\"${playlistName}\", \"public\":true}`;
   
-    // Create an empty playlist
       $.ajax({
       type: 'POST',
         url: `https://api.spotify.com/v1/users/${userID}/playlists`,
@@ -155,8 +152,6 @@ if (!playlistGenerated) {
           playlistId = (result.id);
           console.log("id:" + playlistId);
 
-          //Gather track data
-
           fetchUserTracks().then(function(response) {
             let successHeader = document.createElement("h2");
             document.getElementById("tracks-container").appendChild(successHeader);
@@ -167,7 +162,7 @@ if (!playlistGenerated) {
               let newTrack = document.createElement("li");
               document.getElementById("tracks-container").appendChild(newTrack);
               newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
-              newPlaylistURIs.push (response.items[i].id);
+              newPlaylistURIs.push (response.items[i].uri);
             }
             console.log(newPlaylistURIs.join());
 
@@ -233,7 +228,7 @@ function viewPlaylists() {
   obtainNewToken();
   //Get the playlists from the API
   $.ajax({
-    url: 'https://api.spotify.com/v1/users/1237320388/playlists?limit=50',
+    url: 'https://api.spotify.com/v1/users/1237320388/playlists',
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
@@ -261,15 +256,6 @@ function viewPlaylists() {
         document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
     
       }
-
-      //Create recommendation button
-
-      let reccomendationButton = document.createElement('button');
-      reccomendationButton.textContent = "Get reccomendations";
-      reccomendationButton.id = 'reccomendation-button';
-      document.getElementById("playlist-container").appendChild(reccomendationButton);
-      document.getElementById("reccomendation-button").addEventListener('click', generateReccomendations);
-
     }
 });
 }
@@ -300,112 +286,10 @@ function deletePlaylist() {
   // var element = document.getElementById(elementId);
   //   element.parentNode.removeChild(element);
 
-  } else {
-    console.log('not deleted');
-  }
-
+} else {
+  console.log('not deleted');
 }
 
-function generateReccomendations() {
-  //Get the list of URIs that were generated for top tracks
-  //Hit the API with this list (in an array)?
-  //Return a list of reccomended songs
-  //Make them into a id list
-  //Make a playlist for them
-  // https://api.spotify.com/v1/recommendations
-  fetchUserTracks().then ( function (response) {
-    let seedTracks = [];
-    //Put the URIs in an array
-    for (let i=0; i<5; i++) {
-      seedTracks.push(response.items[i].id);
-    }
-
-    //Get the reccomendations
-
-    $.ajax({
-      type: 'GET',
-      url: `https://api.spotify.com/v1/recommendations?seed_tracks=${seedTracks}`,
-      headers: {
-        'Authorization': 'Bearer ' + access_token
-      },
-      success: function(response) {
-        //Returns the ID to be used by other functions
-        
-        // userID = response.id;
-        for (let i=0; i< response.tracks.length; i++) {
-          //Push into an array of URIs
-          reccomendations.push(response.tracks[i].uri);
-
-
-          //Display HTML
-          let reccomendation = document.createElement('li');
-          let title = response.tracks[i].name;
-          let artist = response.tracks[i].artists[0].name;
-          reccomendation.innerHTML = `Title: ${title}, artist: ${artist}`;
-          document.getElementById('reccomendations-container').appendChild(reccomendation);
-        }
-        // Display playlist creation button
-        let button = document.createElement('button');
-        button.id = 'reccomendations-button';
-        button.textContent = `Create Reccomendations Playlist`;
-        document.getElementById('reccomendations-container').appendChild(button);
-        document.getElementById(button.id).addEventListener('click', generateReccomendationsPlaylist);
-      }
-    })
-
-
-  });
-
-}
-
-function generateReccomendationsPlaylist() {
-
-  getUserID().then(function (data) {
-    let jsonData = `{\"name\":\"My Reccomended Tracks\", \"public\":true}`;
-    let userID = data.id;
-    $.ajax({
-      type: 'POST',
-        url: `https://api.spotify.com/v1/users/${userID}/playlists`,
-        dataType: 'json',
-        headers: {
-          'Authorization': 'Bearer ' + access_token,
-          'Content-Type': "application/json"
-        },
-        data: jsonData,
-        dataType: 'json',
-        body: {
-          'name': "My Reccomended Tracks",
-        },
-        success: function(result) {
-          console.log(result);
-          let playlistID = result.id;
-
-          $.ajax({
-
-            type: 'POST',
-            url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks?uris=${reccomendations.join()}`,
-            dataType: 'text',
-            headers: {
-              'Authorization': 'Bearer ' + access_token
-            },
-            
-            success: function(result) {
-            
-              //store the new playlist in a variable
-              console.log('successfully posted reccomended tracks to new playlist');
-              console.log(result);
-            
-            
-            },
-            error: function(error) {
-              console.log('Error! :(');
-              console.log(error.responseText);
-            }
-            
-          });
-        }
-      });
-  })
   
 }
 
@@ -417,6 +301,7 @@ function generateReccomendationsPlaylist() {
 /// Button Calls ///
 
 document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
+
 document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
 document.getElementById("view-user-playlists").addEventListener('click', viewPlaylists);
 
@@ -433,6 +318,7 @@ function saveTimeData() {
   timeArr.forEach((element) =>{
     if (element.checked === true) {
       selectedTime = element.value;
+      document.getElementById("generate-playlist").innerHTML += `${selectedTime}`;
     };
 
     switch (selectedTime) {
