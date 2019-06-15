@@ -38,41 +38,31 @@
           <input type="radio" name="time-period" value="12-months"> 12 Months
       </div>
 
-      <div id=amount-of-tracks>
+    <div id=amount-of-tracks>
         <p> Amount of tracks: </p>
         <input type="radio" name="track-amount" value="5"> 5<br>
         <input type="radio" name="track-amount" value="20"> 20<br>
         <input type="radio" name="track-amount" value="50"> 50
     </div>
 
-    <input type="button"   value="Submit">
-
 
       </form>
        
         <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-        <button class="btn btn-default" id="generate-playlist">Generate playlist of top 5 recent tracks</button>
+        <button class="btn btn-default" id="generate-playlist">Generate playlist of top recent tracks</button>
         <button class="btn btn-default" id="view-user-playlists">View playlists</button>
 
 
+      </div>
 
-
-
-        <div id ="tracks-container" >
-          <ul>
-
-
-          </ul>
-        </div>
+      <div id='tracks-container'>
 
 
       </div>
-    </div>
 
-    <div id="user-tracks">
+      <div id='playlist-container'>
 
-
-      
+      </div>
     </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">

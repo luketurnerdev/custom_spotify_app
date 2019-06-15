@@ -4,7 +4,6 @@ var userID = "";
 
 let selectedAmount;
 let selectedTime;
-//changed
 
 
 (function() {
@@ -111,6 +110,7 @@ function getUserID() {
       //Returns the ID to be used by other functions
       
       userID = response.id;
+      console.log('Lukes user id:' + response.id);
     }
     
 
@@ -118,10 +118,6 @@ function getUserID() {
 
 
 }
-
-// function saveTrackData() {
-//   console.log($("#myField").val());
-// }
 
   //Check if this playlist has already been generated
   var playlistGenerated = false;
@@ -235,6 +231,38 @@ function obtainNewToken() {
     });
 }
 
+function viewPlaylists() {
+  //Get the playlists from the API
+  $.ajax({
+    url: 'https://api.spotify.com/v1/users/1237320388/playlists',
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+    success: function(response) {
+      var playlists = response.items;
+      console.log(playlists);
+      for (let i=0; i<playlists.length; i++) {
+      
+        let newPlaylist = document.createElement("li");
+        document.getElementById("tracks-container").appendChild(newPlaylist);
+        let a = document.createElement('a');
+        let linkText = document.createTextNode(playlists[i].name)
+        a.appendChild(linkText);
+        a.href = playlists[i].external_urls.spotify;
+        // newPlaylist.innerHTML = `Name: ${playlists[i].name}, ${a}`;
+        newPlaylist.appendChild(a);
+      
+      }
+    }
+});
+
+//Display in HTML
+
+
+
+
+}
+
 
 
 
@@ -246,7 +274,9 @@ function obtainNewToken() {
 document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
 
 document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
+document.getElementById("view-user-playlists").addEventListener('click', viewPlaylists);
 
+//Saving the users selections for playlist options
 document.getElementById("time-selector").addEventListener('click', saveTimeData);
 document.getElementById("amount-of-tracks").addEventListener('click', saveTrackAmount);
 
@@ -297,7 +327,10 @@ function saveTrackAmount() {
 }
 
 
-
+module.exports = {
+  selectedAmount,
+  selectedTime
+}
 
 }
 })();
