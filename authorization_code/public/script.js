@@ -36,11 +36,6 @@ let selectedTime;
       refresh_token = params.refresh_token,
       error = params.error;
 
-  
-
-
-
-
 if (error) {
     alert('There was an error during the authentication');
   } else 
@@ -48,6 +43,7 @@ if (error) {
 
     if (access_token) {
       // render oauth info
+      obtainNewToken();
       oauthPlaceholder.innerHTML = oauthTemplate({
         access_token: access_token,
         refresh_token: refresh_token
@@ -123,15 +119,10 @@ function getUserID() {
   var playlistGenerated = false;
 
 function generatePlaylist() {
-
-
-  //Fetch the user ID to be used using returned promise of getUserID //
-
-  //If the user ID is valid, make the post request for new empty playlist //
   
 if (!playlistGenerated) {
 
-
+  //Get the user id to be used
   getUserID().then(function(data) {
     var playlistName = `Top ${selectedAmount} tracks of the last ${selectedTime} months`;
     console.log(`playlist is called ${playlistName}`);
@@ -231,7 +222,10 @@ function obtainNewToken() {
     });
 }
 
+window.onload = obtainNewToken;
+
 function viewPlaylists() {
+  obtainNewToken();
   //Get the playlists from the API
   $.ajax({
     url: 'https://api.spotify.com/v1/users/1237320388/playlists',
@@ -260,24 +254,43 @@ function viewPlaylists() {
         deleteButton.id = playlists[i].id;
         newPlaylist.appendChild(deleteButton);
         document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
-
-
-
-        
-      
+    
       }
-
-
-
-
-
     }
 });
 }
 
 function deletePlaylist() {
 
-  console.log(this.id);
+  if (confirm('Are you sure you want to delete this playlist?')) {
+
+    //DELETE request
+    $.ajax({
+      type: 'DELETE',
+      url: `https://api.spotify.com/v1/playlists/${this.id}/followers`,
+      headers: {
+        'Authorization': 'Bearer ' + access_token
+      },
+      success: function(response) {
+        //Returns the ID to be used by other functions
+        
+        // userID = response.id;
+        console.log('Playlist successfully deleted');
+      }
+  });
+
+  //Remove the HTML
+  let deletedPlaylist = document.getElementById(this.id);
+  deletedPlaylist.parentNode.removeChild(deletedPlaylist);
+
+  // var element = document.getElementById(elementId);
+  //   element.parentNode.removeChild(element);
+
+} else {
+  console.log('not deleted');
+}
+
+  
 }
 
 
@@ -305,6 +318,7 @@ function saveTimeData() {
   timeArr.forEach((element) =>{
     if (element.checked === true) {
       selectedTime = element.value;
+      document.getElementById("generate-playlist").innerHTML += `${selectedTime}`;
     };
 
     switch (selectedTime) {
@@ -316,7 +330,7 @@ function saveTimeData() {
       selectedTime = "medium_term";
       break;
 
-      case ("12-months"):
+      case ("all-time"):
       selectedTime = "long_term";
         break;
 
@@ -325,6 +339,8 @@ function saveTimeData() {
     }
 
     console.log(selectedTime);
+    
+
 
   });
 
@@ -337,16 +353,21 @@ function saveTrackAmount() {
   trackArr.forEach((element) =>{
     if (element.checked === true) {
       selectedAmount = element.value;
+
+      //HTML change
+      document.getElementById("generate-playlist").innerHTML = `Generate playlist of ${selectedAmount} tracks `;
     };
     
   });
+
+  
 }
 
 
-module.exports = {
-  selectedAmount,
-  selectedTime
-}
+// module.exports = {
+//   selectedAmount,
+//   selectedTime,
+// }
 
 }
 })();

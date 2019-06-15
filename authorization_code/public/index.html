@@ -35,21 +35,24 @@
       <p> Time period: </p>
           <input type="radio" name="time-period" value="1-month"> 1 Month<br>
           <input type="radio" name="time-period" value="6-months"> 6 Months<br>
-          <input type="radio" name="time-period" value="12-months"> 12 Months
+          <input type="radio" name="time-period" value="all-time"> All time
       </div>
 
     <div id=amount-of-tracks>
         <p> Amount of tracks: </p>
         <input type="radio" name="track-amount" value="5"> 5<br>
         <input type="radio" name="track-amount" value="20"> 20<br>
-        <input type="radio" name="track-amount" value="50"> 50
+        <input type="radio" name="track-amount" value="50"> 50 <br>
+        <input type="radio" name="track-amount" value="200"> 200
+
+        
     </div>
 
 
       </form>
        
         <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-        <button class="btn btn-default" id="generate-playlist">Generate playlist of top recent tracks</button>
+        <button class="btn btn-default" id="generate-playlist">Generate playlist</button>
         <button class="btn btn-default" id="view-user-playlists">View playlists</button>
 
 

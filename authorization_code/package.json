@@ -1,7 +1,6 @@
 {
   "name": "authorization_code",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +8,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "nodemon": "^1.19.1",
     "request": "^2.88.0"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
