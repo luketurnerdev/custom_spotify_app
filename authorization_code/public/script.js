@@ -238,31 +238,47 @@ function viewPlaylists() {
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
+
     success: function(response) {
       var playlists = response.items;
-      console.log(playlists);
       for (let i=0; i<playlists.length; i++) {
-      
-        let newPlaylist = document.createElement("li");
-        document.getElementById("tracks-container").appendChild(newPlaylist);
+
+        //Create playlist link
         let a = document.createElement('a');
         let linkText = document.createTextNode(playlists[i].name)
         a.appendChild(linkText);
         a.href = playlists[i].external_urls.spotify;
-        // newPlaylist.innerHTML = `Name: ${playlists[i].name}, ${a}`;
+
+        //Add to list
+        let newPlaylist = document.createElement("li");
+        document.getElementById("tracks-container").appendChild(newPlaylist);
         newPlaylist.appendChild(a);
+
+        //Add delete button
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = `Delete Playlist`;
+        deleteButton.id = playlists[i].id;
+        newPlaylist.appendChild(deleteButton);
+        document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
+
+
+
+        
       
       }
+
+
+
+
+
     }
 });
-
-//Display in HTML
-
-
-
-
 }
 
+function deletePlaylist() {
+
+  console.log(this.id);
+}
 
 
 
