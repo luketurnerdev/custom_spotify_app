@@ -72,15 +72,13 @@ if (error) {
   //Playlist variables
 
   var playlistId = "";
-  var newPlaylistURIs = [];
+  let newPlaylistURIs = [];
 
   //User variables
 
  
 
 /// Function definitions ///
-  
-
 
 function fetchUserTracks() {
   return $.ajax({
@@ -110,11 +108,7 @@ function getUserID() {
       userID = response.id;
       console.log('Lukes user id:' + response.id);
     }
-    
-
   });
-
-
 }
 
   //Check if this playlist has already been generated
@@ -126,11 +120,6 @@ function generatePlaylist() {
   //Then, an empty playlist gets made, and the recent tracks get added straight after
 
 if (selectedAmount != undefined && selectedTime != undefined) {
-
-
-
-
-
 
 //Check if this playlist has not already been made
   if (!playlistGenerated) {
@@ -179,7 +168,7 @@ if (selectedAmount != undefined && selectedTime != undefined) {
                 newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
                 newPlaylistURIs.push (response.items[i].id);
               }
-              console.log(newPlaylistURIs.join());
+              console.log(`URIS: ${newPlaylistURIs}`);
 
               //Add the tracks to the new playlist
 
@@ -221,14 +210,41 @@ if (selectedAmount != undefined && selectedTime != undefined) {
   }
     
   } else {
-      console.log("Please select params");
-      //HTML rendering
-      error = document.createElement('h1');
-      error.textContent = "Please select a time period and track amount first.";
-      document.getElementById("tracks-container").appendChild(error);
+    console.log("Params not selected");
+    //HTML rendering
+    error = document.createElement('h1');
+    error.textContent = "Please select a time period and track amount first.";
+    document.getElementById("tracks-container").appendChild(error);
     }
   }
 
+function viewTopTracks() {
+
+  if (selectedAmount != undefined && selectedTime != undefined) {
+
+      //Gather track data
+    fetchUserTracks().then(function(response) {
+      let successHeader = document.createElement("h2");
+      document.getElementById("tracks-container").appendChild(successHeader);
+      successHeader.innerHTML = "Here are your top tracks:"
+      //Add the URIs of top tracks to an array
+      for (let i=0; i<response.items.length; i++){
+  
+        let newTrack = document.createElement("li");
+        document.getElementById("tracks-container").appendChild(newTrack);
+        newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
+        // newPlaylistURIs.push (response.items[i].id);
+      }
+      // console.log(newPlaylistURIs.join());
+    });
+  } else {
+    console.log("Params not selected");
+    //HTML rendering
+    error = document.createElement('h1');
+    error.textContent = "Please select a time period and track amount first.";
+    document.getElementById("tracks-container").appendChild(error);
+  }
+}
 
 
 function obtainNewToken() {
@@ -436,6 +452,8 @@ function generateReccomendationsPlaylist() {
 /// Button Calls ///
 
 document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
+document.getElementById("view-top-tracks").addEventListener('click', viewTopTracks);
+
 document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
 document.getElementById("view-user-playlists").addEventListener('click', viewPlaylists);
 
