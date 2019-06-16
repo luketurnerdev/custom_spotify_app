@@ -208,6 +208,10 @@ if (selectedAmount != undefined && selectedTime != undefined) {
 
   } else {
     console.log ('Playlist has already been made');
+    //HTML rendering
+    error = document.createElement('h1');
+    error.textContent = "Looks like this playlist has already been generated.";
+    document.getElementById("tracks-container").appendChild(error);
   }
     
   } else {
@@ -234,9 +238,7 @@ function viewTopTracks() {
         let newTrack = document.createElement("li");
         document.getElementById("tracks-container").appendChild(newTrack);
         newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
-        // newPlaylistURIs.push (response.items[i].id);
       }
-      // console.log(newPlaylistURIs.join());
     });
   } else {
     console.log("Params not selected");
