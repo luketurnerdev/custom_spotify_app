@@ -166,16 +166,17 @@ if (selectedAmount != undefined && selectedTime != undefined) {
                 let newTrack = document.createElement("li");
                 document.getElementById("tracks-container").appendChild(newTrack);
                 newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
-                newPlaylistURIs.push (response.items[i].id);
+                newPlaylistURIs.push (response.items[i].uri);
               }
-              console.log(`URIS: ${newPlaylistURIs}`);
+              console.log(`URIS: ${newPlaylistURIs.join()}`);
 
-              //Add the tracks to the new playlist
-
+               //Add the tracks to the new playlist
               $.ajax({
 
                 type: 'POST',
                 url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
+                // url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=spotify:track:4iV5W9uYEdYUVa79Axb7Rh`,
+
                 dataType: 'text',
                 headers: {
                   'Authorization': 'Bearer ' + access_token
