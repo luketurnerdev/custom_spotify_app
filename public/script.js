@@ -230,13 +230,24 @@ function viewTopTracks() {
       let successHeader = document.createElement("h2");
       document.getElementById("tracks-container").appendChild(successHeader);
       successHeader.innerHTML = "Here are your top tracks:"
-      //Add the URIs of top tracks to an array
+
+      //Display top tracks to the user
       for (let i=0; i<response.items.length; i++){
   
         let newTrack = document.createElement("li");
         document.getElementById("tracks-container").appendChild(newTrack);
         newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
       }
+
+      //Render reccomends button
+
+      //Create recommendation button
+
+      let reccomendationButton = document.createElement('button');
+      reccomendationButton.textContent = "Get reccomendations";
+      reccomendationButton.id = 'reccomendation-button';
+      document.getElementById("tracks-container").appendChild(reccomendationButton);
+      document.getElementById("reccomendation-button").addEventListener('click', generateReccomendations);
     });
   } else {
     console.log("Params not selected");
@@ -298,13 +309,7 @@ function viewPlaylists() {
     
       }
 
-      //Create recommendation button
-
-      let reccomendationButton = document.createElement('button');
-      reccomendationButton.textContent = "Get reccomendations";
-      reccomendationButton.id = 'reccomendation-button';
-      document.getElementById("playlist-container").appendChild(reccomendationButton);
-      document.getElementById("reccomendation-button").addEventListener('click', generateReccomendations);
+      
 
     }
 });
@@ -397,7 +402,11 @@ function generateReccomendations() {
 function generateReccomendationsPlaylist() {
 
   getUserID().then(function (data) {
-    let jsonData = `{\"name\":\"My Reccomended Tracks\", \"public\":true}`;
+    //Time of playlist generation
+    let date = new Date();
+    const day = date.getDate();
+    const month = date.toLocaleString('en-us', { month: 'long' });
+    let jsonData = `{\"name\":\"My Reccomended Tracks on ${day} ${month}\", \"public\":true}`;
     let userID = data.id;
     $.ajax({
       type: 'POST',
@@ -430,6 +439,12 @@ function generateReccomendationsPlaylist() {
               //store the new playlist in a variable
               console.log('successfully posted reccomended tracks to new playlist');
               console.log(result);
+
+              //Render success html
+
+              let successMessage = document.createElement('h1');
+              successMessage.textContent = "Successfully created reccomendations playlist!";
+              document.getElementById("reccomendations-container").appendChild(successMessage);
             
             
             },
