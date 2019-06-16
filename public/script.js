@@ -3,10 +3,8 @@
 var userID = "";
 let reccomendations = [];
 
-
 let selectedAmount;
 let selectedTime;
-
 
 (function() {
 
