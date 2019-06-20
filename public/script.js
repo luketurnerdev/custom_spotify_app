@@ -6,6 +6,13 @@ let reccomendations = [];
 let selectedAmount;
 let selectedTime;
 
+
+
+
+// const express = require('express');
+// const bodyParser = require('body-parser');
+
+
 (function() {
 
   /**
@@ -75,6 +82,7 @@ if (error) {
   //User variables
 
  
+
 
 /// Function definitions ///
 
@@ -159,6 +167,8 @@ if (selectedAmount != undefined && selectedTime != undefined) {
               document.getElementById("tracks-container").appendChild(successHeader);
               successHeader.innerHTML = "Successfully created playlist with the following tracks:"
               //Add the URIs of top tracks to an array
+             
+
               for (let i=0; i<response.items.length; i++){
 
                 let newTrack = document.createElement("li");
@@ -166,6 +176,7 @@ if (selectedAmount != undefined && selectedTime != undefined) {
                 newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
                 newPlaylistURIs.push (response.items[i].uri);
               }
+              
               console.log(`URIS: ${newPlaylistURIs.join()}`);
 
                //Add the tracks to the new playlist
@@ -173,7 +184,6 @@ if (selectedAmount != undefined && selectedTime != undefined) {
 
                 type: 'POST',
                 url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${newPlaylistURIs.join()}`,
-                // url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=spotify:track:4iV5W9uYEdYUVa79Axb7Rh`,
 
                 dataType: 'text',
                 headers: {
@@ -277,42 +287,54 @@ function obtainNewToken() {
 window.onload = obtainNewToken;
 
 function viewPlaylists() {
-  obtainNewToken();
-  //Get the playlists from the API
-  $.ajax({
-    url: 'https://api.spotify.com/v1/users/1237320388/playlists?limit=50',
-    headers: {
-      'Authorization': 'Bearer ' + access_token
-    },
 
-    success: function(response) {
-      var playlists = response.items;
-      for (let i=0; i<playlists.length; i++) {
+  getUserID().then (function(data) {
+    let id = data.id;
+    obtainNewToken();
+    //Get the playlists from the API
+    $.ajax({
+      url: `https://api.spotify.com/v1/users/${id}/playlists?limit=50`,
+      headers: {
+        'Authorization': 'Bearer ' + access_token
+      },
+  
+      success: function(response) {
+        var playlists = response.items;
+        //Make the div for current info to display
+        let currentInfo = document.createElement('div');
+        currentInfo.id = "current-info";
+        console.log(currentInfo.id);
 
-        //Create playlist link
-        let a = document.createElement('a');
-        let linkText = document.createTextNode(playlists[i].name)
-        a.appendChild(linkText);
-        a.href = playlists[i].external_urls.spotify;
-
-        //Add to list
-        let newPlaylist = document.createElement("li");
-        document.getElementById("tracks-container").appendChild(newPlaylist);
-        newPlaylist.appendChild(a);
-
-        //Add delete button
-        let deleteButton = document.createElement('button');
-        deleteButton.textContent = `Delete Playlist`;
-        deleteButton.id = playlists[i].id;
-        newPlaylist.appendChild(deleteButton);
-        document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
-    
-      }
-
+          //Loop through playlists and add to the div
+          for (let i=0; i<playlists.length; i++) {
+  
+          //Create playlist link
+          let a = document.createElement('a');
+          let linkText = document.createTextNode(playlists[i].name)
+          a.appendChild(linkText);
+          a.href = playlists[i].external_urls.spotify;
+  
+          //Add to list
+          let newPlaylist = document.createElement("li");
+          newPlaylist.appendChild(a);
+          console.log(currentInfo);
+          document.getElementById('playlist-container').appendChild(newPlaylist);
+  
+          //Add delete button
+          let deleteButton = document.createElement('button');
+          deleteButton.textContent = `Delete Playlist`;
+          deleteButton.id = playlists[i].id;
+          newPlaylist.appendChild(deleteButton);
+          document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
       
-
-    }
-});
+        }
+  
+        document.getElementById('tracks-container').innerHTML = currentInfo;
+  
+      }
+  });
+  });
+  
 }
 
 function deletePlaylist() {
@@ -348,6 +370,7 @@ function deletePlaylist() {
 }
 
 function generateReccomendations() {
+  console.log('inside');
   //Get the list of URIs that were generated for top tracks
   //Hit the API with this list (in an array)?
   //Return a list of reccomended songs
