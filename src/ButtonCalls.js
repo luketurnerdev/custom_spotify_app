@@ -1,5 +1,5 @@
 const ButtonCalls = () => {
-    console.log('Button calls executed')
+    // console.log('Button calls executed')
     // document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
     // document.getElementById("view-top-tracks").addEventListener('click', viewTopTracks);
     

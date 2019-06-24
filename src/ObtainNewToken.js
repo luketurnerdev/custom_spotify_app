@@ -1,5 +1,5 @@
 const ObtainNewToken = () => {
-    console.log('Obtain new token executed');
+    // console.log('Obtain new token executed');
         // $.ajax({
         //   url: '/refresh_token',
         //   data: {

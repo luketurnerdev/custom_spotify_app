@@ -1,5 +1,5 @@
 const GeneratePlaylist = () => {
-    console.log('generate playlist executed');
+    // console.log('generate playlist executed');
 
     //     //Currently this spits out an empty playlist. I think we should only have this visible if the options have been selected.
     //     //Then, an empty playlist gets made, and the recent tracks get added straight after

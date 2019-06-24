@@ -1,6 +1,6 @@
 const ViewTopTracks = () => {
 
-        console.log('View Top tracks executed');
+        // console.log('View Top tracks executed');
 
     //     //If both options are selected
     //     if (selectedAmount != undefined && selectedTime != undefined) {

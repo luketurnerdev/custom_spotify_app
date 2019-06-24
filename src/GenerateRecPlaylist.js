@@ -1,6 +1,6 @@
 const GenerateRecPlaylist = () => {
 
-    console.log('Generate Rec playlist executed');
+    // console.log('Generate Rec playlist executed');
     // getUserID().then(function (data) {
     //     //Time of playlist generation
     //     let date = new Date();

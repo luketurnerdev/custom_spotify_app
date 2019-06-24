@@ -1,5 +1,5 @@
 const ViewPlaylists = () => {
-    console.log('View Playlists executed');
+    // console.log('View Playlists executed');
         // getUserID().then (function(data) {
         //   let id = data.id;
         //   obtainNewToken();

@@ -14,17 +14,17 @@ import GetHashParams from "./GetHashParams";
 
 //Testing functionality of imported functions
   
-  FetchUserTracks();
-  GetUserID();
-  ObtainNewToken();
-  ViewTopTracks();
-  ViewPlaylists();
-  GeneratePlaylist();
-  GenerateReccomendations();
-  GenerateRecPlaylist();
-  ButtonCalls();
-  SaveTimeData();
-  SaveTrackAmount();
+  // FetchUserTracks();
+  // GetUserID();
+  // ObtainNewToken();
+  // ViewTopTracks();
+  // ViewPlaylists();
+  // GeneratePlaylist();
+  // GenerateReccomendations();
+  // GenerateRecPlaylist();
+  // ButtonCalls();
+  // SaveTimeData();
+  // SaveTrackAmount();
   GetHashParams();
 
 

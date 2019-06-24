@@ -36,6 +36,8 @@ let selectedTime;
       refresh_token = params.refresh_token,
       error = params.error;
 
+      console.log('generated access token ' + access_token);
+
 if (error) {
     alert('There was an error during the authentication');
   } else 

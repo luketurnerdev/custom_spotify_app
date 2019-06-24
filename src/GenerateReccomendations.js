@@ -1,5 +1,5 @@
 const GenerateReccomendations = () => {
-    console.log('Generate recs executed');
+    // console.log('Generate recs executed');
     // //Get the list of URIs that were generated for top tracks
     // //Hit the API with this list (in an array)?
     // //Return a list of reccomended songs

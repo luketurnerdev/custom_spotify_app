@@ -1,5 +1,5 @@
 const SaveTimeData = () => {
-    console.log('Save Time Data executed');
+    // console.log('Save Time Data executed');
     // let timeArr = document.getElementsByName("time-period");
     // timeArr.forEach((element) =>{
     //   if (element.checked === true) {
