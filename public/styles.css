@@ -1,8 +1,11 @@
 
 #tracks-container {
     border:2px solid black;
+    box-sizing: content-box;
+
 }
 
 #playlist-container {
     border:2px solid black;
+    box-sizing: content-box;
 }

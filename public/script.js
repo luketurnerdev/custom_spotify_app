@@ -6,15 +6,11 @@ let reccomendations = [];
 let selectedAmount;
 let selectedTime;
 
-
-
-
-// const express = require('express');
-// const bodyParser = require('body-parser');
+// import bar from "./functions.js";
+// bar();
 
 
 (function() {
-
   /**
    * Obtains parameters from the hash of the URL
    * @return Object
@@ -233,9 +229,10 @@ if (selectedAmount != undefined && selectedTime != undefined) {
 
 function viewTopTracks() {
 
+  //If both options are selected
   if (selectedAmount != undefined && selectedTime != undefined) {
 
-      //Gather track data
+      //Gather track data, if successful, generate header HTML
     fetchUserTracks().then(function(response) {
       let successHeader = document.createElement("h2");
       document.getElementById("tracks-container").appendChild(successHeader);
@@ -248,8 +245,6 @@ function viewTopTracks() {
         document.getElementById("tracks-container").appendChild(newTrack);
         newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
       }
-
-      //Render reccomends button
 
       //Create recommendation button
 
