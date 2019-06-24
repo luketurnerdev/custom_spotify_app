@@ -6,9 +6,6 @@ let reccomendations = [];
 let selectedAmount;
 let selectedTime;
 
-// import bar from "./functions.js";
-// bar();
-
 
 (function() {
   /**
@@ -75,14 +72,13 @@ if (error) {
   var playlistId = "";
   let newPlaylistURIs = [];
 
-  //User variables
 
  
 
 
 /// Function definitions ///
 
-function fetchUserTracks() {
+function FetchUserTracks() {
   return $.ajax({
     //Get the tracks with a specific limit and time range
     url: (`https://api.spotify.com/v1/me/top/tracks?time_range=${selectedTime}&limit=${selectedAmount}`) ,
@@ -97,7 +93,9 @@ function fetchUserTracks() {
 }
 
 function getUserID() {
-
+  if (GetUserID != null) {
+    console.log("es6 import worked" + GetUserID);
+  }
   return $.ajax({
     type: 'GET',
     url: 'https://api.spotify.com/v1/me',
@@ -158,7 +156,7 @@ if (selectedAmount != undefined && selectedTime != undefined) {
 
             //Gather track data
 
-            fetchUserTracks().then(function(response) {
+            FetchUserTracks().then(function(response) {
               let successHeader = document.createElement("h2");
               document.getElementById("tracks-container").appendChild(successHeader);
               successHeader.innerHTML = "Successfully created playlist with the following tracks:"
@@ -233,7 +231,7 @@ function viewTopTracks() {
   if (selectedAmount != undefined && selectedTime != undefined) {
 
       //Gather track data, if successful, generate header HTML
-    fetchUserTracks().then(function(response) {
+    FetchUserTracks().then(function(response) {
       let successHeader = document.createElement("h2");
       document.getElementById("tracks-container").appendChild(successHeader);
       successHeader.innerHTML = "Here are your top tracks:"
@@ -372,7 +370,7 @@ function generateReccomendations() {
   //Make them into a id list
   //Make a playlist for them
   // https://api.spotify.com/v1/recommendations
-  fetchUserTracks().then ( function (response) {
+  FetchUserTracks().then ( function (response) {
     let seedTracks = [];
     //Put the URIs in an array
     for (let i=0; i<5; i++) {

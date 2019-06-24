@@ -6,7 +6,6 @@
  * For more information, read
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
-
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var cors = require('cors');
@@ -36,7 +35,7 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/dist'))
    .use(cors())
    .use(cookieParser());
 
@@ -144,5 +143,5 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-console.log('Listening on 8888');
+console.log('Listening on 8888, congrats!');
 app.listen(8888);
