@@ -546,11 +546,5 @@ function saveTrackAmount() {
   
 }
 
-
-// module.exports = {
-//   selectedAmount,
-//   selectedTime,
-// }
-
 }
 })();
