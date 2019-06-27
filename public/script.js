@@ -1,3 +1,6 @@
+//We want to use this script to initialize everything, 
+//including the button fucntions and imports
+
 //Global vars
 
 var userID = "";
@@ -5,13 +8,8 @@ let reccomendations = [];
 
 let selectedAmount;
 let selectedTime;
-
-
-
-
-// const express = require('express');
-// const bodyParser = require('body-parser');
-
+const Another = require('./Another');
+Another();
 
 (function() {
 
