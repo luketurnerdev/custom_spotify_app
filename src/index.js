@@ -1,10 +1,9 @@
 //This is the main JS script. Other scripts will be imported here
 import SpotifyInit from "./SpotifyInit";
-import "./js/Rainbow.js";
-import "./js/Unicorn";
+
 
 /// RUN DEFAULT SPOTIFY CODE ///
-// SpotifyInit();
+SpotifyInit();
 
 console.log('Index.js file ran');
 

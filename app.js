@@ -12,6 +12,7 @@ var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var path = require('path');
 
 var client_id = 'd9cca6b8ff4248c9a2161fd2e94bacc0'; // Your client id
 var client_secret = '4b14ba01523c4854ac1508abdc94fb60'; // Your secret
@@ -36,9 +37,10 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/dist'))
    .use(cors())
    .use(cookieParser());
+
 
 app.get('/login', function(req, res) {
 
@@ -47,7 +49,6 @@ app.get('/login', function(req, res) {
 
   // your application requests authorization
   var scope = 'playlist-modify-public user-top-read user-read-email user-read-private user-read-birthdate';
-
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -144,5 +145,5 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-console.log('Listening on 8888');
+console.log('Listening on 8888, current code');
 app.listen(8888);
