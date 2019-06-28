@@ -480,11 +480,6 @@ function generateReccomendationsPlaylist() {
   
 }
 
-
-
-
-
-
 /// Button Calls ///
 
 document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
@@ -496,9 +491,6 @@ document.getElementById("view-user-playlists").addEventListener('click', viewPla
 //Saving the users selections for playlist options
 document.getElementById("time-selector").addEventListener('click', saveTimeData);
 document.getElementById("amount-of-tracks").addEventListener('click', saveTrackAmount);
-
-
-
 
 function saveTimeData() {
 
