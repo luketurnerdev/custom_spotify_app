@@ -8,8 +8,7 @@ let reccomendations = [];
 
 let selectedAmount;
 let selectedTime;
-const Another = require('./Another');
-Another();
+
 
 (function() {
 
