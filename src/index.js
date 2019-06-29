@@ -5,7 +5,6 @@ import ViewTopTracks from "./ViewTopTracks";
 import ViewPlaylists from "./ViewPlaylists";
 
 SpotifyInit();
-console.log('got access token: ' + AccessToken());
 
 
 
