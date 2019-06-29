@@ -1,9 +1,11 @@
-//This is the main JS script. Other scripts will be imported here
+//This is the main JS script. Other scripts will be imported here.
+
 import SpotifyInit from "./SpotifyInit";
 import {AccessToken} from "./SpotifyInit";
 import ViewTopTracks from "./ViewTopTracks";
 import ViewPlaylists from "./ViewPlaylists";
 
+// ObtainNewToken();
 SpotifyInit();
 
 
@@ -13,7 +15,7 @@ SpotifyInit();
 //Setup button clicks
 
 // document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
-// document.getElementById("view-top-tracks").addEventListener('click', viewTopTracks);
+document.getElementById("view-top-tracks").addEventListener('click', ViewTopTracks);
 
 // document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
 document.getElementById("view-user-playlists").addEventListener('click', ViewPlaylists);
