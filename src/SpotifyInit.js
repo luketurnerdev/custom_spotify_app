@@ -67,4 +67,20 @@ const SpotifyInit = () => {
     })();
 };
 
-export default SpotifyInit;
+function GetHashParams() {
+  var hashParams = {};
+  var e, r = /([^&;=]+)=?([^&;]*)/g,
+  q = window.location.hash.substring(1);
+  while ( e = r.exec(q)) {
+     hashParams[e[1]] = decodeURIComponent(e[2]);
+  }
+  return hashParams;
+}
+function AccessToken() {
+  console.log(GetHashParams().access_token );
+  return GetHashParams().access_token;
+
+}
+
+
+export default AccessToken;
