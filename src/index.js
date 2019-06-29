@@ -1,10 +1,10 @@
 //This is the main JS script. Other scripts will be imported here
 import SpotifyInit from "./SpotifyInit";
-import AccessToken from "./SpotifyInit";
+import {AccessToken} from "./SpotifyInit";
 import ViewTopTracks from "./ViewTopTracks";
 import ViewPlaylists from "./ViewPlaylists";
 
-// SpotifyInit();
+SpotifyInit();
 console.log('got access token: ' + AccessToken());
 
 
