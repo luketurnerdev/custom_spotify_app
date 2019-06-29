@@ -1,3 +1,25 @@
+<!-- Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@luketurnerdev 
+0
+0 0 luketurnerdev/custom_spotify_app
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Security  Insights  Settings
+custom_spotify_app/public/index.html
+@luketurnerdev luketurnerdev Pushing before major refactoring
+3e39586 9 days ago
+We found potential security vulnerabilities in your dependencies.
+Only the owner of this repository can see this message. 
+Manage your notification settings or learn more about security alerts.
+
+118 lines (89 sloc)  3.56 KB -->
+    
 <!doctype html>
 <html>
   <head>
@@ -6,7 +28,8 @@
     <link rel="stylesheet" href="/styles.css">
     </style>
   </head>
-  <script type="text/javascript" src="./bundle.js"></script>
+  <script src="/bundle.js" type="module"> </script>
+
   <body>
     <div class="container">
       <div id="login">
@@ -70,7 +93,7 @@
     </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Welcome, {{display_name}} !</h1>
+      <h1>Logged in as {{display_name}}</h1>
       <div class="media">
         <div class="pull-left">
           <img class="media-object" width="150" src="{{images.0.url}}" />
@@ -97,7 +120,7 @@
       </dl>
     </script>
 
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <!-- <script src="/script.js" type="module"> </script> -->
     <!-- <script src="/userInfo.js"> </script> -->
@@ -105,3 +128,15 @@
   </body>
 </html>
 
+<!-- © 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About -->

@@ -5,5 +5,6 @@ import SpotifyInit from "./SpotifyInit";
 /// RUN DEFAULT SPOTIFY CODE ///
 SpotifyInit();
 
+
 console.log('Index.js file ran');
 
