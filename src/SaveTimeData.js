@@ -1,5 +1,5 @@
 const SaveTimeData = () => {
-    var selectedTime;
+    let selectedTime;
     let timeArr = document.getElementsByName("time-period");
     timeArr.forEach((element) => {
       if (element.checked === true) {
@@ -20,15 +20,14 @@ const SaveTimeData = () => {
           break;
   
         default:
-          // console.log('no time defined');
+          break;
       }
 
-      return selectedTime;
-  
-      
-  
   
     });   
+
+    return selectedTime;
+
 }
 
 export default SaveTimeData;

@@ -10,9 +10,9 @@ const GetUserID = () => {
         },
         success: function(response) {
           //Returns the ID to be used by other functions
-          
-          // userID = response.id;
-          console.log('Lukes user id:' + response.id);
+          console.log('User id:' + response.id);
+
+          return response.id;
         }
       });
 

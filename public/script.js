@@ -94,7 +94,7 @@ function fetchUserTracks() {
 
       console.log('successfully fetched user tracks');
     }
-});
+  });
 }
 
 function getUserID() {
