@@ -1,11 +1,13 @@
 import SaveTimeData from "./SaveTimeData";
 import SaveTrackAmount from "./SaveTrackAmount";
 import FetchUserTracks from "./FetchUserTracks";
+import GenerateReccomendations from "./GenerateReccomendations";
 const ViewTopTracks = () => {
 
     let fetchUserTracks = FetchUserTracks();
     let selectedAmount = SaveTrackAmount();
     let selectedTime = SaveTimeData();
+    let generateReccomendations = GenerateReccomendations;
 
     if (selectedAmount && selectedTime) {
 
@@ -22,8 +24,6 @@ const ViewTopTracks = () => {
           document.getElementById("tracks-container").appendChild(newTrack);
           newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;
         }
-    
-        //Render reccomends button
     
         //Create recommendation button
     
