@@ -3,7 +3,7 @@ import SaveTrackAmount from "./SaveTrackAmount";
 import FetchUserTracks from "./FetchUserTracks";
 import GenerateReccomendations from "./GenerateReccomendations";
 const ViewTopTracks = () => {
-
+    console.log('view called');
     let fetchUserTracks = FetchUserTracks();
     let selectedAmount = SaveTrackAmount();
     let selectedTime = SaveTimeData();

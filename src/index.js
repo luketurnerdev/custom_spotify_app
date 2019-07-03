@@ -6,6 +6,7 @@ import ViewTopTracks from "./ViewTopTracks";
 import ViewPlaylists from "./ViewPlaylists";
 
 // ObtainNewToken();
+/// RUN DEFAULT SPOTIFY CODE ///
 SpotifyInit();
 
 
@@ -25,7 +26,6 @@ document.getElementById("view-user-playlists").addEventListener('click', ViewPla
 // document.getElementById("amount-of-tracks").addEventListener('click', saveTrackAmount);
 
 
-/// RUN DEFAULT SPOTIFY CODE ///
 
 //Debug 
 // ViewPlaylists();

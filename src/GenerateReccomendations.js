@@ -1,9 +1,13 @@
 import FetchUserTracks from "./FetchUserTracks";
 import {AccessToken} from "./SpotifyInit";
-const GenerateReccomendtions = () => {
+import GenerateReccomendationsPlaylist from "./GenerateReccomendationsPlaylist";
+let reccomendations = [];
+const GenerateReccomendations = () => {
     let fetchUserTracks = FetchUserTracks();
+    let generateReccomendationsPlaylist = GenerateReccomendationsPlaylist;
     let access_token = AccessToken();
-    console.log('inside');
+
+
     //Get the list of URIs that were generated for top tracks
     //Hit the API with this list (in an array)?
     //Return a list of reccomended songs
@@ -26,13 +30,11 @@ const GenerateReccomendtions = () => {
           'Authorization': 'Bearer ' + access_token
         },
         success: function(response) {
-        let reccomendations = [];
           
           // userID = response.id;
           for (let i=0; i< response.tracks.length; i++) {
             //Push into an array of URIs
             reccomendations.push(response.tracks[i].uri);
-            
   
   
             //Display HTML
@@ -42,17 +44,27 @@ const GenerateReccomendtions = () => {
             reccomendation.innerHTML = `Title: ${title}, artist: ${artist}`;
             document.getElementById('reccomendations-container').appendChild(reccomendation);
           }
+          
+          
+
           // Display playlist creation button
           let button = document.createElement('button');
           button.id = 'reccomendations-button';
           button.textContent = `Create Reccomendations Playlist`;
           document.getElementById('reccomendations-container').appendChild(button);
-        //   document.getElementById(button.id).addEventListener('click', generateReccomendationsPlaylist);
+          document.getElementById(button.id).addEventListener('click', generateReccomendationsPlaylist);
+
         }
+
       })
   
   
     });
 }
 
-export default GenerateReccomendtions;
+export function listRecs(){
+  return reccomendations;
+}
+
+
+export default GenerateReccomendations;
