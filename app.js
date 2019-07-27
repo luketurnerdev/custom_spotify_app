@@ -8,6 +8,7 @@
  */
 
 const express = require('express'); // Express web server framework
+const app = express();
 const request = require('request'); // "Request" library
 const cors = require('cors');
 const querystring = require('querystring');
@@ -21,6 +22,9 @@ const redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
 //Enable use of process.env
 require("dotenv").config();
+
+// Routes from /routes
+app.use(require("./src/routes"));
 
 
 /**
@@ -39,8 +43,6 @@ var generateRandomString = function(length) {
 };
 
 var stateKey = 'spotify_auth_state';
-
-var app = express();
 
 app.use(express.static(__dirname + '/dist'))
    .use(cors())

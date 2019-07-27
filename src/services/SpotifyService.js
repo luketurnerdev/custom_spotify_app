@@ -67,4 +67,4 @@ class spotifyService {
     }
 }
 
-module.exports = new meetupService();
+module.exports = new spotifyService();
