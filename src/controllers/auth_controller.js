@@ -8,7 +8,9 @@ function spotifyRedirection(req, res) {
     //Use the code to send the user to spotify auth
     
     res.redirect(
-        "https://accounts.spotify.com/authorize"
+        "https://accounts.spotify.com/authorize" + 
+        "?response_type=code" +
+        `&client_id=${process.env.CLIENT_ID}`
       );
 
 
