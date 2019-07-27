@@ -4,6 +4,7 @@ import SpotifyInit from "./SpotifyInit";
 import {AccessToken} from "./SpotifyInit";
 import ViewTopTracks from "./ViewTopTracks";
 import ViewPlaylists from "./ViewPlaylists";
+import GeneratePlaylist from "./GeneratePlaylist";
 
 // ObtainNewToken();
 /// RUN DEFAULT SPOTIFY CODE ///
@@ -17,8 +18,7 @@ SpotifyInit();
 
 // document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
 document.getElementById("view-top-tracks").addEventListener('click', ViewTopTracks);
-
-// document.getElementById("generate-playlist").addEventListener('click', generatePlaylist);
+document.getElementById("generate-playlist").addEventListener('click', GeneratePlaylist);
 document.getElementById("view-user-playlists").addEventListener('click', ViewPlaylists);
 
 //Saving the users selections for playlist options

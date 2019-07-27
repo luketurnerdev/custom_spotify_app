@@ -9,10 +9,9 @@ import {AccessToken} from "./SpotifyInit";
 
 const ViewPlaylists = () => {
     let access_token = AccessToken();
-    console.log('inside');
     GetUserID().then (function(data) {
         let id = data.id;
-        console.log("user id: " + id);
+        // console.log("user id: " + id);
 
   //Get the playlists from the API
         $.ajax({
@@ -28,7 +27,6 @@ const ViewPlaylists = () => {
             //Make the div for current info to display
             let currentInfo = document.createElement('div');
             currentInfo.id = "current-info";
-            console.log(currentInfo.id);
 
             //Loop through playlists and add to the div
             for (let i=0; i<playlists.length; i++) {
@@ -42,8 +40,7 @@ const ViewPlaylists = () => {
                 //Add to list
                 let newPlaylist = document.createElement("li");
                 newPlaylist.appendChild(a);
-                console.log(currentInfo);
-                document.getElementById('playlist-container').appendChild(newPlaylist);
+                // document.getElementById('playlist-container').appendChild(newPlaylist);
         
                 //Add delete button
                 let deleteButton = document.createElement('button');

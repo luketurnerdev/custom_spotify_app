@@ -2,6 +2,7 @@ import SaveTimeData from "./SaveTimeData";
 import SaveTrackAmount from "./SaveTrackAmount";
 import FetchUserTracks from "./FetchUserTracks";
 import GenerateReccomendations from "./GenerateReccomendations";
+import GeneratePlaylist from "./GeneratePlaylist";
 const ViewTopTracks = () => {
     console.log('view called');
     let fetchUserTracks = FetchUserTracks();
@@ -26,12 +27,24 @@ const ViewTopTracks = () => {
         }
     
         //Create recommendation button
-    
+      
         let reccomendationButton = document.createElement('button');
-        reccomendationButton.textContent = "Get reccomendations";
+        reccomendationButton.textContent = "Get reccomendations based on these tracks!";
         reccomendationButton.id = 'reccomendation-button';
         document.getElementById("tracks-container").appendChild(reccomendationButton);
         document.getElementById("reccomendation-button").addEventListener('click', generateReccomendations);
+
+        //Create playlist button
+        let playlistButton = document.createElement('button');
+        playlistButton.textContent = "Generate playlist";
+        playlistButton.id = "playlist-button";
+        document.getElementById("tracks-container").appendChild(playlistButton);
+        document.getElementById("playlist-button").addEventListener('click', GeneratePlaylist);
+
+
+
+
+
       });
     } else {
       console.log("Params not selected");
