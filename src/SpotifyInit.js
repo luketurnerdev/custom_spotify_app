@@ -52,6 +52,8 @@ const SpotifyInit = () => {
           refresh_token = params.refresh_token,
           error = params.error;
       if (error) {
+        console.log('err:' + error);
+
         alert('There was an error during the authentication');
       } else {
         if (access_token) {

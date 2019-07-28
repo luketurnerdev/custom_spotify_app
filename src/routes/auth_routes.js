@@ -7,5 +7,9 @@ const authController = require("./../controllers/auth_controller");
 // Spotify login redirection
 router.get("/login", authController.spotifyRedirection);
 
+// GET to /auth/callback
+// The app returns here after redirection from spotify auth
+router.get("/callback", authController.spotifyCallback);
+
 module.exports = router;
 
