@@ -33,12 +33,15 @@ function spotifyCallback(req,res) {
   let state = req.query.state || null;
   let storedState = req.cookies ? req.cookies[stateKey] : null;
 
+
+  const tokens = spotifyService.getTokens(code);
+  const userData = spotifyService.getUserData(tokens.access_token);
   //TODO: Deny access if the state is incorrect
 
-      //1. Clear the current cookie
-      res.clearCookie(stateKey);
-      spotifyService.getTokens(code);
-      //2. Make a request for the token using 'code' variable (handle this in the service)
+    //1. Clear the current cookie
+    res.clearCookie(stateKey);
+    //2. Make a request for the token using 'code' variable (handle this in the service)
+
 
 
 }

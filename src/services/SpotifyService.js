@@ -29,60 +29,46 @@ class spotifyService {
     async getTokens(code) {
         console.log('get tokens ran');
         const config = { 
-            headers: {
-            "Authorization" : "Basic " + (new Buffer(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64'))
-            },
-            'Content-Type': 'application/x-www-form-urlencoded',
-            form: {
-                code: code,
-                redirect_uri : process.env.REDIRECT_URI,
-                grant_type : 'authorization_code'
-            },
+            headers: {"Content-Type": 'application/x-www-form-urlencoded'}
+        };
 
-            body : {
-                client_id : process.env.CLIENT_ID,
-                client_secret : process.env.CLIENT_SECRET
-            }
-            // json: true,
+    const body = queryString.stringify(
+        {
+            code: code,
+            redirect_uri : process.env.REDIRECT_URI,
+            grant_type : 'authorization_code',
+            client_id : process.env.CLIENT_ID,
+            client_secret : process.env.CLIENT_SECRET
+        }
+    )
 
-            // An alternative way to send the client id and secret is as request 
-            // parameters (client_id and client_secret) in the POST body, 
-            // instead of sending them base64-encoded in the header. 
 
-    };
-    
-        //Client auth information to be used in the body.
-        //Use queryString.stringify to convert this information to url-encoded from JSON.
-        // const body = queryString.stringify({
-        //     'client_id': process.env.CLIENT_ID,
-        //     'client_secret':process.env.CLIENT_SECRET,
-        //     'grant_type': 'authorization_code',
-        //     'redirect_uri': process.env.REDIRECT_URI,
-        //     'code': code
-        // });
-
-        //Make a post request to ask for access using the config and body
+        //Make a post request to ask for access using the body and config
+        //In this axios format, the body MUST come before the config
         const response = await axios.post
         (
             'https://accounts.spotify.com/api/token',
+            body,
             config
-        );
-        //The access tokens are returned as the response, to be used in HTTP requests etc
-        console.log(response.data);
-        return response.data;
-
+        )
         
+        //The access tokens are returned as the response, to be used in HTTP requests etc
+        console.log(response)
+        return response;
+
+
     }
 
     //This is an example of a function that can be constructed using the newly available tokens
 
-    async getUserInfo(accessToken) {
-        const response = await axios.get('https://api.meetup.com/members/self', {
+    async getUserData(accessToken) {
+        const response = await axios.get('https://api.spotify.com/v1/me', {
             headers: {
                 "Authorization": `Bearer ${accessToken}`
             }
         });
 
+        console.log(response.data)
         return response.data;
     }
 }
