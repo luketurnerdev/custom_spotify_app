@@ -3,6 +3,7 @@ import SaveTrackAmount from "./SaveTrackAmount";
 import SaveTimeData from "./SaveTimeData";
 
 const FetchUserTracks = () => {
+  console.log(cookie);
     let access_token = AccessToken();
     let selectedAmount = SaveTrackAmount();
     let selectedTime = SaveTimeData();

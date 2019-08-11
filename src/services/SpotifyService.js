@@ -61,19 +61,18 @@ class spotifyService {
     //This is an example of a function that can be constructed using the newly available tokens
 
     async getUserData(accessToken) {
-        console.log('get user ran' + accessToken)
 
         const response = await axios.get('https://api.spotify.com/v1/me', {
             headers: {
                 "Authorization": `Bearer ${accessToken}`
             }
         })
-        .then(resp => {
-            console.log(resp);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        // .then(resp => {
+        //     // console.log(resp);
+        // })
+        // .catch(err => {
+        //     // console.log(err);
+        // })
         return response;
     }
 }
