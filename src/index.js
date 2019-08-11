@@ -3,22 +3,19 @@
 import SpotifyInit from "./SpotifyInit";
 import {AccessToken} from "./SpotifyInit";
 import ViewTopTracks from "./ViewTopTracks";
-import ViewPlaylists from "./ViewPlaylists";
+import ViewPlaylists from "./playlists/ViewPlaylists";
 import GeneratePlaylist from "./GeneratePlaylist";
+
 
 // ObtainNewToken();
 /// RUN DEFAULT SPOTIFY CODE ///
 // SpotifyInit();
 
-
-
-
-
 //Setup button clicks
 
-document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
-document.getElementById("view-top-tracks").addEventListener('click', ViewTopTracks);
-document.getElementById("generate-playlist").addEventListener('click', GeneratePlaylist);
+// document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
+// document.getElementById("view-top-tracks").addEventListener('click', ViewTopTracks);
+// document.getElementById("generate-playlist").addEventListener('click', GeneratePlaylist);
 document.getElementById("view-user-playlists").addEventListener('click', ViewPlaylists);
 
 //Saving the users selections for playlist options
@@ -27,11 +24,7 @@ document.getElementById("view-user-playlists").addEventListener('click', ViewPla
 
 
 
-//Debug 
-// ViewPlaylists();
 
 
-
-
-console.log('Index.js file ran');
+console.log('Index.js file rasdasdan');
 
