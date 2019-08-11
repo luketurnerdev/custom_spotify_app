@@ -25,7 +25,7 @@ function spotifyRedirection(req, res) {
       )
 };
 
-function spotifyCallback(req,res) {
+async function spotifyCallback(req,res) {
   var stateKey = 'spotify_auth_state';
   console.log(req.query);
   //Received the one time code from authorzation, and state information
@@ -34,8 +34,21 @@ function spotifyCallback(req,res) {
   let storedState = req.cookies ? req.cookies[stateKey] : null;
 
 
-  const tokens = spotifyService.getTokens(code);
+  const tokens = await spotifyService.getTokens(code);
   const userData = spotifyService.getUserData(tokens.access_token);
+
+  console.log('standard' + tokens)
+
+  //Set cookies for tokens
+  res.cookie("tokens", {
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token
+  });
+
+  console.log(`Access token: ${tokens.access_token}`)
+
+  //Use access token to get user profile
+  // console.log(userData);
   //TODO: Deny access if the state is incorrect
 
     //1. Clear the current cookie

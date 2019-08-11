@@ -53,8 +53,7 @@ class spotifyService {
         )
         
         //The access tokens are returned as the response, to be used in HTTP requests etc
-        console.log(response)
-        return response;
+        return response.data;
 
 
     }
@@ -62,14 +61,20 @@ class spotifyService {
     //This is an example of a function that can be constructed using the newly available tokens
 
     async getUserData(accessToken) {
+        console.log('get user ran' + accessToken)
+
         const response = await axios.get('https://api.spotify.com/v1/me', {
             headers: {
                 "Authorization": `Bearer ${accessToken}`
             }
-        });
-
-        console.log(response.data)
-        return response.data;
+        })
+        .then(resp => {
+            console.log(resp);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        return response;
     }
 }
 
