@@ -3,10 +3,11 @@
 import SpotifyInit from "./SpotifyInit";
 import {AccessToken} from "./SpotifyInit";
 import ViewTopTracks from "./ViewTopTracks";
-import playlistController from "./controllers/playlist_controller";
+// import playlistController from "./controllers/playlist_controller";
+import ViewPlaylists from "./playlists/ViewPlaylists"
 import GeneratePlaylist from "./GeneratePlaylist";
+import {getUserTokens} from "./controllers/auth_controller"
 
-const viewPlaylists = playlistController.viewPlaylists;
 
 
 // ObtainNewToken();
@@ -18,7 +19,7 @@ const viewPlaylists = playlistController.viewPlaylists;
 // document.getElementById('obtain-new-token').addEventListener('click', obtainNewToken, false);
 // document.getElementById("view-top-tracks").addEventListener('click', ViewTopTracks);
 // document.getElementById("generate-playlist").addEventListener('click', GeneratePlaylist);
-document.getElementById("view-user-playlists").addEventListener('click', viewPlaylists);
+document.getElementById("view-user-playlists").addEventListener('click', getUserTokens);
 
 //Saving the users selections for playlist options
 // document.getElementById("time-selector").addEventListener('click', saveTimeData);

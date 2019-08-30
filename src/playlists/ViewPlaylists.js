@@ -1,14 +1,14 @@
 async function ViewPlaylists(req, res) {
     console.log('view playlists ran');
-    console.log(req.cookies);
+    // console.log(req.cookies);
       //Get user ID
       //GEt Access token
       // userID = tokens.userID;
       // access_token = tokens.acc
-      res.status(200);
+      // res.status(200);
  }
 
- module.exports = ViewPlaylists;
+export default ViewPlaylists;
     //   getUserID().then (function(data) {
     //     let id = data.id;
     //     obtainNewToken();

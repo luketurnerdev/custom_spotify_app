@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "mongoose": "^5.6.0",
+    "mongoose": "^5.6.9",
     "monk": "^7.0.0",
     "nodemon": "^1.19.1",
     "query-string": "^6.8.2",
