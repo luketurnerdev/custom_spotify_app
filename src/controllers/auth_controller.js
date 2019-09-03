@@ -43,9 +43,6 @@ async function spotifyCallback(req,res) {
     userID
   }
 
-  res.cookie("userInfo", userInfo)
-  // req.cookies.userInfo = resp;
-
   res.clearCookie(stateKey);
   //Return user info as json object
   res.redirect("/");
