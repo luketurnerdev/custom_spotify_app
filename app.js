@@ -20,7 +20,7 @@ const client_id = 'd9cca6b8ff4248c9a2161fd2e94bacc0'; // Your client id
 const client_secret = '4b14ba01523c4854ac1508abdc94fb60'; // Your secret
 const redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 
-import models, {connectDB} from "./models";
+// import models, {connectDB} from "./models";
 //Enable use of process.env
 require("dotenv").config();
 

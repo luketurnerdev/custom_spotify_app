@@ -55,7 +55,6 @@ class spotifyService {
         //The access tokens are returned as the response, to be used in HTTP requests etc
         return response.data;
 
-
     }
 
     //This is an example of a function that can be constructed using the newly available tokens

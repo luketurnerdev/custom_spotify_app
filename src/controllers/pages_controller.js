@@ -2,7 +2,7 @@
 // Show homepage
 async function homepage(req, res) {
 
-  console.log("COOKIES:", req.cookies);
+  console.log("COOKIES:", res.cookies);
     // res.redirect("/");
   }
 

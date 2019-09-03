@@ -3,6 +3,8 @@ const spotifyService = require("./../services/SpotifyService");
 const axios = require("axios");
 const queryString = require("query-string");
 
+let userInfo = {};
+
 
 let generateRandomString = function(length) {
   var text = '';
@@ -34,19 +36,23 @@ async function spotifyCallback(req,res) {
   let storedState = req.cookies ? req.cookies[stateKey] : null;
   const tokens = await spotifyService.getTokens(code);
   const userData = await spotifyService.getUserData(tokens.access_token);
-  console.log(tokens.access_token)
-  //Set cookies for tokens
-  res.cookie("access_token", tokens.access_token);
-  res.cookie("refresh_token", tokens.refresh_token);
-  res.cookie("userID", userData.data.id)
-  
-  res.clearCookie(stateKey);
+  const userID = userData.data.id
 
+  userInfo = {
+    tokens,
+    userID
+  }
+
+  res.cookie("userInfo", userInfo)
+  // req.cookies.userInfo = resp;
+
+  res.clearCookie(stateKey);
+  //Return user info as json object
   res.redirect("/");
+
 }
 function getUserTokens(req,res) {
-  let cookies = req.cookies;
-  res.send(`Cookies : ${req.cookies}`)
+  res.json(userInfo);
 }
 
 module.exports = {

@@ -10,7 +10,7 @@ router.get("/login", authController.spotifyRedirection);
 // GET to /auth/callback
 // The app returns here after redirection from spotify auth
 router.get("/callback", authController.spotifyCallback);
-
 router.get("/getuser", authController.getUserTokens)
+
 module.exports = router;
 
