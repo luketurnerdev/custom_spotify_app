@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("./../controllers/auth_controller");
 const pagesController = require("./../controllers/pages_controller")
+const usersController = require("./../controllers/users_controller")
 
 // GET to /auth/login
 // Spotify login redirection
@@ -10,6 +11,8 @@ router.get("/login", authController.spotifyRedirection);
 
 // Register page
 router.get("/register", pagesController.register);
+
+router.post("/register", usersController.createUser);
 
 // POST to "/register"
 // Create a user

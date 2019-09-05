@@ -26,11 +26,18 @@ async function create(req, res, next) {
     .catch(err => next(new HTTPError(500, err)));
 }
 
+async function getUsers(req, res) {
+  User.find()
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json("Error " + err ))
+}
+
 async function updateTokens() {
 
 }
 
 module.exports = {
   create,
+  getUsers,
   updateTokens
 }

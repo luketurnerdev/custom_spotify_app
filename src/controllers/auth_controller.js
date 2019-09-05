@@ -53,7 +53,12 @@ async function spotifyCallback(req,res) {
 
 }
 function getUserTokens(req,res) {
-  res.json(userInfo);
+  if (userInfo) {
+    console.log(userInfo)
+    res.json(userInfo)
+  } else {
+    
+  }
 }
 
 module.exports = {
