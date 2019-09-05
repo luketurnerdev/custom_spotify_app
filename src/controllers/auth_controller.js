@@ -52,7 +52,6 @@ async function spotifyCallback(req,res) {
   }
 
   const user = await User.findOne({spotify_uid: userProfileInfo.spotify_uid});
-  console.log(`user is : ${user}`)
   if (!user) {
     //Create new user
     const config = {
@@ -67,17 +66,22 @@ async function spotifyCallback(req,res) {
     const response = await axios
       .post(`${process.env.BACKEND_URI}/users`, body, config)
       .then(function(response) {
-        console.log(`Sucessfully created user ${userData.name}!`);
+        console.log(`Sucessfully created user ${userProfileInfo.name}!`);
       })
       .catch(function(error) {
         console.log(error);
       });
+  } else {
+    console.log(`user is : ${user}`)
+
   }
 
   res.cookie("tokens", {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token
   });
+
+  res.cookie("userID", userProfileInfo.spotify_uid)
 
 
   res.clearCookie(stateKey);
