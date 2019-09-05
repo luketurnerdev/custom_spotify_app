@@ -1,4 +1,7 @@
 const User = require("./../database/models/user_model");
+const findUserByToken = require("./_findUserByToken");
+
+
 
 async function create(req, res, next) {
   console.log("Ran create function")
@@ -27,7 +30,17 @@ async function create(req, res, next) {
     .catch(err => console.log(err));
 }
 
-async function getUsers(req, res) {
+async function getUser(req, res, next) {
+  let user = await findUserByToken(req,res)
+  .then(resp => {
+    console.log(resp);
+    res.json(resp);
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
+async function getAllUsers(req, res) {
   User.find()
     .then(users => res.json(users))
     .catch(err => res.status(400).json("Error " + err ))
@@ -39,6 +52,7 @@ async function updateTokens() {
 
 module.exports = {
   create,
-  getUsers,
+  getUser,
+  getAllUsers,
   updateTokens
 }

@@ -3,6 +3,8 @@ let accessToken;
 let userID;
 export async function viewPlaylists(req, res) {
 
+    // const user = 
+
     const userInfo = await axios.get("/auth/getuser")
     .then(resp => {
          accessToken = resp.data.tokens.access_token;

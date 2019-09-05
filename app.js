@@ -40,5 +40,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/dist'))
    .use(cors())
 
+   // Custom HTTP errors
+global.HTTPError = class HTTPError extends Error {
+   constructor(statusCode, message) {
+     super(message);
+     // Preserve StackTrace
+     if (Error.captureStackTrace) {
+       Error.captureStackTrace(this, HTTPError);
+     }
+     this.name = "HTTPError";
+     this.statusCode = statusCode;
+   }
+ };
+ 
+
 console.log('Listening on 8888, spotify app is a go-go bro');
 app.listen(8888);
