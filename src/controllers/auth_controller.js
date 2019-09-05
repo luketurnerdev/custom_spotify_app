@@ -3,7 +3,9 @@ const spotifyService = require("./../services/SpotifyService");
 const axios = require("axios");
 const queryString = require("query-string");
 
-let userInfo = {};
+//User DB and methods
+const User = require("./../database/models/user_model")
+// let userInfo = {};
 
 
 let generateRandomString = function(length) {
@@ -40,25 +42,55 @@ async function spotifyCallback(req,res) {
   let storedState = req.cookies ? req.cookies[stateKey] : null;
   const tokens = await spotifyService.getTokens(code);
   const userData = await spotifyService.getUserData(tokens.access_token);
-  const userID = userData.data.id
+  // const userID = userData.data.id
 
-  userInfo = {
-    tokens,
-    userID
+ 
+  //Save userData into the DB
+
+  let userProfileInfo = {
+    spotify_uid: userData.id,
+    email: userData.email,
+    name: userData.display_name,
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token
   }
+
+  const user = await User.findOne({spotify_uid: userProfileInfo.spotify_uid});
+
+  if (!user) {
+    //Create new user
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    };
+
+    //Put the body data in the correct format
+    const body = queryString.stringify(userProfileInfo);
+
+    const response = await axios
+      .post(`${process.env.BACKEND_URI}/users`, body, config)
+      .then(function(response) {
+        console.log(`Sucessfully created user ${userData.name}!`);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
 
   res.clearCookie(stateKey);
   //Return user info as json object
-  res.redirect("/");
+  // res.redirect("/");
 
 }
 function getUserTokens(req,res) {
-  if (userInfo) {
-    console.log(userInfo)
-    res.json(userInfo)
-  } else {
+  // if (userInfo) {
+  //   console.log(userInfo)
+  //   res.json(userInfo)
+  // } else {
     
-  }
+  // }
 }
 
 module.exports = {

@@ -8,6 +8,7 @@
  */
 
 const cookieParser = require('cookie-parser');
+const bodyParser = require("body-parser")
 const express = require('express'); // Express web server framework
 const app = express();
 const request = require('request'); // "Request" library
@@ -45,6 +46,10 @@ require("dotenv").config();
 app.use(require("./src/routes"));
 
 app.use(cookieParser());
+
+//Body-parser for converting to JSON
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use(express.static(__dirname + '/dist'))

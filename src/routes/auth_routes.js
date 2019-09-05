@@ -12,7 +12,7 @@ router.get("/login", authController.spotifyRedirection);
 // Register page
 router.get("/register", pagesController.register);
 
-// router.post("/register", usersController.createUser);
+router.post("/register", usersController.create);
 
 // POST to "/register"
 // Create a user

@@ -1,5 +1,6 @@
 const axios = require("axios");
 const queryString = require("query-string");
+const usersController = require("./../controllers/users_controller")
 
 //This service uses a singleton pattern to call an API, get authentication information, 
 //and return access tokens / data. This can then be stored in cookies / session / DB.
@@ -52,6 +53,7 @@ class spotifyService {
             config
         )
         
+        usersController.create()
         //The access tokens are returned as the response, to be used in HTTP requests etc
         return response.data;
 
@@ -66,10 +68,10 @@ class spotifyService {
                 "Authorization": `Bearer ${accessToken}`
             }
         })
-        //User profile info
-        console.log(response.data);
 
-        return response;
+
+        //Return user profile information
+        return response.data;
     }
 }
 
