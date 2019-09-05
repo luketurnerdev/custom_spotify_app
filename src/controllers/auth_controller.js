@@ -42,10 +42,6 @@ async function spotifyCallback(req,res) {
   let storedState = req.cookies ? req.cookies[stateKey] : null;
   const tokens = await spotifyService.getTokens(code);
   const userData = await spotifyService.getUserData(tokens.access_token);
-  // const userID = userData.data.id
-
- 
-  //Save userData into the DB
 
   let userProfileInfo = {
     spotify_uid: userData.id,
@@ -65,7 +61,7 @@ async function spotifyCallback(req,res) {
       }
     };
 
-    //Put the body data in the correct format
+    //Create user in DB
     const body = queryString.stringify(userProfileInfo);
 
     const response = await axios
@@ -78,10 +74,15 @@ async function spotifyCallback(req,res) {
       });
   }
 
+  res.cookie("tokens", {
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token
+  });
+
 
   res.clearCookie(stateKey);
   //Return user info as json object
-  // res.redirect("/");
+  res.redirect(`${process.env.BACKEND_URI}/`);
 
 }
 function getUserTokens(req,res) {

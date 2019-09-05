@@ -17,6 +17,9 @@ const querystring = require('querystring');
 const path = require('path');
 const exphbs = require("express-handlebars");
 require("./src/database/connect");
+
+app.use(cookieParser());
+
 // Use Handlebars as view engine
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
@@ -28,7 +31,6 @@ require("dotenv").config();
 // Routes from /routes
 app.use(require("./src/routes"));
 
-app.use(cookieParser());
 
 //Body-parser for converting to JSON
 app.use(bodyParser.json());
