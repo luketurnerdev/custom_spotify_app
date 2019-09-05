@@ -6,6 +6,14 @@ async function homepage(req, res) {
     // res.redirect("/");
   }
 
+function register(req, res) {
+
+  // res.json("ok");
+  res.render("pages/register")
+  // require("./../views/pages/homepage")
+}
+
 module.exports = {
-    homepage
+    homepage,
+    register
 }

@@ -66,12 +66,9 @@ class spotifyService {
                 "Authorization": `Bearer ${accessToken}`
             }
         })
-        // .then(resp => {
-        //     // console.log(resp);
-        // })
-        // .catch(err => {
-        //     // console.log(err);
-        // })
+        //User profile info
+        console.log(response.data);
+
         return response;
     }
 }

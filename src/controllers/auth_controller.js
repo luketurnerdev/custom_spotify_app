@@ -28,6 +28,10 @@ function spotifyRedirection(req, res) {
       )
 };
 
+async function register(req, res) {
+  //
+}
+
 async function spotifyCallback(req,res) {
   var stateKey = 'spotify_auth_state';
   //Received the one time code from authorzation, and state information
