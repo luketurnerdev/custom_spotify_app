@@ -1,16 +1,10 @@
 // GET to "/"
 // Show homepage
-async function homepage(req, res) {
-
-  console.log("COOKIES:", res.cookies);
-    // res.redirect("/");
-  }
-
+function homepage(req, res) {
+  res.render("pages/homepage")
+}
 function register(req, res) {
-
-  // res.json("ok");
   res.render("pages/register")
-  // require("./../views/pages/homepage")
 }
 
 module.exports = {

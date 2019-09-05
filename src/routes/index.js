@@ -4,6 +4,7 @@ const authRoutes = require("./auth_routes");
 
 const pagesController = require("./../controllers/pages_controller")
 
+router.get("/", pagesController.homepage);
 
 // Auth routes
 router.use("/auth", authRoutes);
