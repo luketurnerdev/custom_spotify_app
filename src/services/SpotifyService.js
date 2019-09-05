@@ -52,8 +52,7 @@ class spotifyService {
             body,
             config
         )
-        
-        usersController.create()
+    
         //The access tokens are returned as the response, to be used in HTTP requests etc
         return response.data;
 

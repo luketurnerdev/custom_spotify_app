@@ -56,7 +56,7 @@ async function spotifyCallback(req,res) {
   }
 
   const user = await User.findOne({spotify_uid: userProfileInfo.spotify_uid});
-
+  console.log(`user is : ${user}`)
   if (!user) {
     //Create new user
     const config = {

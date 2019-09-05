@@ -17,23 +17,6 @@ const querystring = require('querystring');
 const path = require('path');
 const exphbs = require("express-handlebars");
 require("./src/database/connect");
-
-// const mongoConnect = require("./src/database/connect");
-
-//Connect to mongoDB
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb://localhost:27017/";
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-//   const collection = client.db("spotify_db").collection("users");
-//   // perform actions on the collection object
-
-//   let users = collection.find();
-//   // console.log(collection)
-//   client.close();
-// });
-
-
 // Use Handlebars as view engine
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");

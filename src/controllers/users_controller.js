@@ -2,16 +2,19 @@ const User = require("./../database/models/user_model");
 
 async function create(req, res, next) {
   console.log("Ran create function")
+  console.log(req.body);
+  res.json("ok");
+  let {
+    spotify_uid,
+    email,
+    name,
+    access_token,
+    refresh_token,
+    created_at,
+    updated_at
+  } = req.body;
+
   console.log(req.body)
-  // let {
-  //   spotify_uid,
-  //   email,
-  //   name,
-  //   access_token,
-  //   refresh_token,
-  //   created_at,
-  //   updated_at
-  // } = req.body;
 
   // await User
   //   .create({

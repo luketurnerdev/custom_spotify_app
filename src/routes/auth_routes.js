@@ -12,12 +12,6 @@ router.get("/login", authController.spotifyRedirection);
 // Register page
 router.get("/register", pagesController.register);
 
-router.post("/register", usersController.create);
-
-// POST to "/register"
-// Create a user
-// router.post("/register", usersController.create);
-
 //Update a user's tokens
 // router.put("/register", usersController.updateTokens);
 
