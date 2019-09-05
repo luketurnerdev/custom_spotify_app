@@ -14,11 +14,7 @@ export async function viewPlaylists(req, res, next) {
         console.log(err);
     })
 
-    console.log(accessToken)
-    console.log(userID)
-
-
-    Playlist API call
+    // Playlist API call
      const config = { 
             headers: {
                 "Content-Type": 'application/x-www-form-urlencoded',
@@ -28,11 +24,10 @@ export async function viewPlaylists(req, res, next) {
 
         console.log(userID)
 
-            const response = await axios.get
-        (
+        const response = await axios.get(
             `https://api.spotify.com/v1/users/${userID}/playlists?limit=50`,
             config
-        )
+            )
         
 
         let playlists = response.data.items;
