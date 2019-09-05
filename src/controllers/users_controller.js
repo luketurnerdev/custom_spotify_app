@@ -1,8 +1,6 @@
 const User = require("./../database/models/user_model");
 const findUserByToken = require("./_findUserByToken");
 
-
-
 async function create(req, res, next) {
   console.log("Ran create function")
   res.json("ok");
@@ -31,9 +29,9 @@ async function create(req, res, next) {
 }
 
 async function getUser(req, res, next) {
+  console.log('inside get user function')
   let user = await findUserByToken(req,res)
   .then(resp => {
-    console.log(resp);
     res.json(resp);
   })
   .catch(err => {
@@ -46,8 +44,23 @@ async function getAllUsers(req, res) {
     .catch(err => res.status(400).json("Error " + err ))
 }
 
-async function updateTokens() {
-
+// PUT to "/auth/register"
+// Update the user's tokens in the database.
+async function updateTokens(id, newValues) {
+  await User
+    .findOneAndUpdate(
+      {spotify_uid: id },
+      {
+        access_token: newValues.access_token,
+        refresh_token: newValues.refresh_token
+      },
+      { 
+        new: true,
+        useFindAndModify: false
+      }
+    )
+    .then(resp => res.json(resp))
+    .catch(err => new HTTPError(500, err));
 }
 
 module.exports = {

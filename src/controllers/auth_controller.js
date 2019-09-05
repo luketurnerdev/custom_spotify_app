@@ -5,6 +5,7 @@ const queryString = require("query-string");
 
 //User DB and methods
 const User = require("./../database/models/user_model")
+const usersController = require("./../controllers/users_controller")
 // let userInfo = {};
 
 
@@ -72,7 +73,22 @@ async function spotifyCallback(req,res) {
         console.log(error);
       });
   } else {
-    console.log(`user is : ${user}`)
+    // Run update tokens function
+
+    const newValues = {
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      created_at: Date.now(),
+      updated_at: Date.now()
+    };
+
+    console.log(
+      `Updating the user's access token to ${
+        newValues.access_token
+      } and refresh token to ${newValues.refresh_token}`
+    );
+
+    usersController.updateTokens(userData.id, newValues);
 
   }
 
@@ -85,21 +101,11 @@ async function spotifyCallback(req,res) {
 
 
   res.clearCookie(stateKey);
-  //Return user info as json object
   res.redirect(`${process.env.BACKEND_URI}/`);
 
-}
-function getUserTokens(req,res) {
-  // if (userInfo) {
-  //   console.log(userInfo)
-  //   res.json(userInfo)
-  // } else {
-    
-  // }
 }
 
 module.exports = {
   spotifyRedirection,
   spotifyCallback,
-  getUserTokens
 };

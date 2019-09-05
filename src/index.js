@@ -1,11 +1,11 @@
 //This is the main JS script. Other scripts will be imported here.
 
-import SpotifyInit from "./SpotifyInit";
-import {AccessToken} from "./SpotifyInit";
-import ViewTopTracks from "./ViewTopTracks";
+// import SpotifyInit from "./SpotifyInit";
+// import {AccessToken} from "./SpotifyInit";
+// import ViewTopTracks from "./ViewTopTracks";
 import {viewPlaylists} from "./controllers/playlist_controller";
-import ViewPlaylists from "./playlists/ViewPlaylists"
-import GeneratePlaylist from "./GeneratePlaylist";
+// import ViewPlaylists from "./playlists/ViewPlaylists"
+// import GeneratePlaylist from "./GeneratePlaylist";
 
 
 
