@@ -1,6 +1,6 @@
 
 <head>
-  <title>Exampladsdasdode flow with Spotify</title>
+  <title>Lukes Spotify App</title>
   <!-- Responsivity meta tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -12,14 +12,12 @@
 
 <body>
   <div class="container">
-    <div id="login">
+    <div id="title">
       <h1>Lukes Spotify App</h1>
-    </div>
-    <div id="loggedin">
-      <div id="user-profile">
-      </div>
-      <div id="oauth">
-      </div>
+      <button class = "btn btn-default" id="logout-button">
+        Logout
+      </button>
+  </div>
 
     <form id="track-preferences" onsubmit="saveTrackData()">
 
@@ -43,7 +41,6 @@
       {{!-- <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
       <button class="btn btn-default" id="generate-playlist">Generate playlist</button>
       <button class="btn btn-default" id="view-top-tracks">View top tracks</button> --}}
-      <button class="btn btn-default" id="view-user-playlists">View playlists</button>
 
 
     </div>
@@ -56,10 +53,14 @@
 
 
     </div>
-
-    <div id='playlist-container'>
-
+    <div id="playlists">
+      <button class="btn btn-default" id="view-user-playlists">View playlists</button>
+      <div id='playlist-container'>
+      
+      </div>
     </div>
+
+    
 
     <div id="reccomendations-container">
       

@@ -4,6 +4,7 @@ const usersController = require("./users_controller")
 let accessToken = ""
 let userID = ""
 export async function viewPlaylists(req, res, next) {
+    let playlistsRetrieved = false;
     const userInfo = await axios.get("http://localhost:8888/users/me")
     .then(resp => {
         console.log(resp)
@@ -22,19 +23,21 @@ export async function viewPlaylists(req, res, next) {
             }
         };
 
-       
-
         const response = await axios.get(
             `https://api.spotify.com/v1/users/${userID}/playlists?limit=50`,
             config
             )
+            .then(resp => {
+                playlistsRetrieved = true;
+            })
+            .catch(err => {
+                console.log(err)
+            })
         
+        console.log(playlistsRetrieved);
 
-        let playlists = response.data.items;
-        console.log(playlists)
-        let currentInfo = document.createElement('div');
-        currentInfo.id = "current-info";
-
+        let playlists = response.data.items;        
+        let container = document.getElementById('playlist-container')
         for (let i=0; i<playlists.length; i++) {
         
             //Create playlist link
@@ -47,7 +50,7 @@ export async function viewPlaylists(req, res, next) {
             //Add to list
             let newPlaylist = document.createElement("li");
             newPlaylist.appendChild(a);
-            document.getElementById('playlist-container').appendChild(newPlaylist);
+            container.appendChild(newPlaylist);
     
             //Add delete button
             let deleteButton = document.createElement('button');
@@ -55,8 +58,17 @@ export async function viewPlaylists(req, res, next) {
             deleteButton.id = playlists[i].id;
             newPlaylist.appendChild(deleteButton);
             document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
+
+         }
         
-          }
+
+        if (container.style.display === "none") {
+            container.style.display = "block";
+        } else {
+            container.style.display = "none";
+        }
+
+        
   
 }
 
