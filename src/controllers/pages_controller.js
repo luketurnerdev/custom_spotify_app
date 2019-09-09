@@ -8,7 +8,14 @@ function register(req, res) {
   res.render("pages/register")
 }
 
+function logout(req, res) {
+  console.log('inside')
+  res.clearCookie("tokens");
+  res.redirect("pages/register")
+}
+
 module.exports = {
     homepage,
-    register
+    register,
+    logout
 }

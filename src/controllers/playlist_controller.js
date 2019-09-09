@@ -27,12 +27,6 @@ export async function viewPlaylists(req, res, next) {
             `https://api.spotify.com/v1/users/${userID}/playlists?limit=50`,
             config
             )
-            .then(resp => {
-                playlistsRetrieved = true;
-            })
-            .catch(err => {
-                console.log(err)
-            })
         
         console.log(playlistsRetrieved);
 
@@ -60,13 +54,6 @@ export async function viewPlaylists(req, res, next) {
             document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
 
          }
-        
-
-        if (container.style.display === "none") {
-            container.style.display = "block";
-        } else {
-            container.style.display = "none";
-        }
 
         
   
