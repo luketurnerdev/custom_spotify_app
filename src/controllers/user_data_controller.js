@@ -66,7 +66,7 @@ async function topArtistsButton() {
     }
 
     //Toggle display
-    if (container.innerHTML === "") {
+    if (!container.innerHTML) {
       // container.innerHTML = ""
       container.appendChild(artistList);
     } else {
