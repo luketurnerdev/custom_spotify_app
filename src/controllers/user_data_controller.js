@@ -48,22 +48,34 @@ async function topArtistsButton() {
 
   //Handle response in html
 
-  let artistBox = document.getElementById('top-artists-container');
+  let container = document.getElementById('top-artists-container');
+  let artistList = document.createElement("ol");
   for (let i=0; i<artistArray.length; i++) {
+    
+    //Create link
+    let a = document.createElement('a');
+    let linkText = document.createTextNode(artistArray[i].name)
+    a.appendChild(linkText);
+    a.href = artistArray[i].href;
+    a.target = "_blank";
+    
+    //Add to list
+    let artist = document.createElement("li");
+    artist.appendChild(a);
+    artistList.appendChild(artist);
+    }
 
-          //Create link
-          let a = document.createElement('a');
-          let linkText = document.createTextNode(artistArray[i].name)
-          a.appendChild(linkText);
-          a.href = "http://www.google.com";
-          a.target = "_blank";
+    //Toggle display
+    if (container.innerHTML === "") {
+      // container.innerHTML = ""
+      container.appendChild(artistList);
+    } else {
+      container.innerHTML = ""
+    }
 
-          //Add to list
-          let newArtist = document.createElement("li");
-          newArtist.appendChild(a);
-          artistBox.appendChild(newArtist);
-
-  }
+      
+        
+  // artistBox.appendChild(artistList);
 }
 
 // let playlists = response.data.items;        
