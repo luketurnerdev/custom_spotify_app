@@ -5,7 +5,7 @@
 // import ViewTopTracks from "./ViewTopTracks";
 import {viewPlaylists} from "./controllers/playlist_controller";
 import {logout} from "./controllers/pages_controller";
-import {getTopArtists} from "./controllers/user_data_controller"
+import {topArtistsButton} from "./controllers/user_data_controller"
 // import ViewPlaylists from "./playlists/ViewPlaylists"
 // import GeneratePlaylist from "./GeneratePlaylist";
 
@@ -21,7 +21,7 @@ import {getTopArtists} from "./controllers/user_data_controller"
 // document.getElementById("generate-playlist").addEventListener('click', GeneratePlaylist);
 document.getElementById("view-user-playlists").addEventListener('click', viewPlaylists);
 document.getElementById("logout-button").addEventListener('click', logout);
-document.getElementById("view-top-artists").addEventListener('click', getTopArtists);
+document.getElementById("view-top-artists").addEventListener('click', topArtistsButton);
 
 //Saving the users selections for playlist options
 // document.getElementById("time-selector").addEventListener('click', saveTimeData);
