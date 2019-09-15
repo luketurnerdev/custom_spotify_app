@@ -97,7 +97,7 @@ async function topArtistsButton() {
 
   async function setTrackParameters() {
     let topTracks = [];
-    let response = await axios.get
+      await axios.get
       ("http://localhost:8888/user_data/top_tracks")
       .then(resp => {
         topTracks = resp.data;
@@ -107,14 +107,30 @@ async function topArtistsButton() {
       })
       let tracks = []
 
-
       topTracks.forEach((track) => {
           tracks.push({
-            "title": track.name 
+            "title": track.name,
+            "artist": track.artists[0].name,
+            "album": track.album.name,
+            "link": track.href,
+            "popularity": track.popularity
           })
       });
 
-      console.log(tracks);
+      return tracks;
+  }
+
+  async function setTrackHTML() {
+    let tracks = [];
+    setTrackParameters()
+    .then(resp => {
+      tracks.push(resp);
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    console.log(tracks[0][0])
+    // document.getElementById("top-tracks").innerHTML = tracks[0];
   }
     
 
@@ -123,5 +139,5 @@ async function topArtistsButton() {
     getTopArtists,
     getTopTracks,
     topArtistsButton,
-    setTrackParameters
+    setTrackHTML
 }

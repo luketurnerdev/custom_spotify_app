@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --watch",
-    "start": "webpack --watch && nodemon app.js"
+    "start"        : "npm-run-all --parallel watch:server watch:build",
+    "watch:build"  : "webpack --watch",
+    "watch:server" : "nodemon \"./app.js\" --watch \"./dist\""
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "mongoose": "^5.6.9",
     "monk": "^7.0.0",
     "nodemon": "^1.19.1",
+    "npm-run-all": "^4.1.5",
     "query-string": "^6.8.2",
     "request": "^2.88.0",
     "require": "^2.4.20"
