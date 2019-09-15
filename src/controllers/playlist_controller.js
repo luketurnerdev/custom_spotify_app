@@ -53,9 +53,7 @@ export async function viewPlaylists(req, res, next) {
             newPlaylist.appendChild(deleteButton);
             document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
 
-         }
-
-        
+         }       
   
 }
 

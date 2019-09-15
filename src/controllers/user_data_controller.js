@@ -28,8 +28,6 @@ async function getTopArtists(req, res) {
     .catch(err => {
       console.log(err)
     })
-
-
 }
 
 async function topArtistsButton() {
@@ -45,9 +43,9 @@ async function topArtistsButton() {
 
   console.log(artistArray[0].name);
 
-
+  
   //Handle response in html
-
+  
   let container = document.getElementById('top-artists-container');
   let artistList = document.createElement("ol");
   for (let i=0; i<artistArray.length; i++) {
@@ -63,7 +61,7 @@ async function topArtistsButton() {
     let artist = document.createElement("li");
     artist.appendChild(a);
     artistList.appendChild(artist);
-    }
+  }
 
     //Toggle display
     if (!container.innerHTML) {
@@ -73,39 +71,56 @@ async function topArtistsButton() {
       container.innerHTML = ""
     }
 
-      
-        
-  // artistBox.appendChild(artistList);
-}
+  }
 
-// let playlists = response.data.items;        
-//         let container = document.getElementById('playlist-container')
-//         for (let i=0; i<playlists.length; i++) {
-        
-//             //Create playlist link
-//             let a = document.createElement('a');
-//             let linkText = document.createTextNode(playlists[i].name)
-//             a.appendChild(linkText);
-//             a.href = playlists[i].external_urls.spotify;
-//             a.target = "_blank";
+  //GET to user_data/top_tracks
+  async function getTopTracks(req, res) {
+    let accessToken = req.cookies.tokens.access_token;
+    config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+   
+    let topTracks = await axios.get(
+      "https://api.spotify.com/v1/me/top/tracks?time_range=long_term",
+      config
+      )
+      .then (resp  => {
+        res.json(resp.data.items);
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  }
+
+  async function setTrackParameters() {
+    let topTracks = [];
+    let response = await axios.get
+      ("http://localhost:8888/user_data/top_tracks")
+      .then(resp => {
+        // topTracks = resp.data.items;
+        console.log(resp.data.items)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      // let 
+      // trackNames,
+      // artistNames,
+      // albumNames,
+      // links = []
     
-//             //Add to list
-//             let newPlaylist = document.createElement("li");
-//             newPlaylist.appendChild(a);
-//             container.appendChild(newPlaylist);
+  }
+
+
     
-//             //Add delete button
-//             let deleteButton = document.createElement('button');
-//             deleteButton.textContent = `Delete Playlist`;
-//             deleteButton.id = playlists[i].id;
-//             newPlaylist.appendChild(deleteButton);
 
 
-
-
-
-module.exports = {
-  getTopArtists,
-  topArtistsButton
+  module.exports = {
+    getTopArtists,
+    getTopTracks,
+    topArtistsButton,
+    setTrackParameters
 }
-

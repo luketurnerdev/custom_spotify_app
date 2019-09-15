@@ -5,5 +5,6 @@ const urlEncodedParser = bodyParser.urlencoded({extended:false})
 const userDataController = require("./../controllers/user_data_controller")
 
 router.get("/top_artists", userDataController.getTopArtists)
+router.get("/top_tracks", userDataController.getTopTracks)
 
 module.exports = router;
