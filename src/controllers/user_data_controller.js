@@ -65,7 +65,6 @@ async function topArtistsButton() {
 
     //Toggle display
     if (!container.innerHTML) {
-      // container.innerHTML = ""
       container.appendChild(artistList);
     } else {
       container.innerHTML = ""
@@ -128,25 +127,31 @@ async function topArtistsButton() {
       let tracks = [];
       tracks.push(resp);
       console.log("resp below");
+      let container = document.getElementById("top-tracks-container");
+      // container.innerHTML = "";
       for (let i=0; i<resp.length; i++) {
-        console.log(resp[i].title);
+        //Title
         let item = document.createElement("li");
         let itemText = document.createTextNode(resp[i].title);
         item.appendChild(itemText);
-
-
-        // let a = document.createElement('a');
-        // let linkText = document.createTextNode(resp[i].title)
-        // a.appendChild(linkText);
-        // a.href = resp[i].href;
-        // a.target = "_blank";
-        document.getElementById("top-tracks-container").appendChild(item);
-
+        
+        //Artist
+        let artist = document.createTextNode(resp[i].artist);
+        item.appendChild(document.createTextNode("br"));
+        item.appendChild(artist);
+        container.appendChild(item);
       }
     })
     .catch(err => {
       console.log(err)
     })
+
+    //Toggle display
+    if (!container.innerHTML) {
+      container.appendChild(artistList);
+    } else {
+      container.innerHTML = ""
+    }
     
     
   }
