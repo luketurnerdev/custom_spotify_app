@@ -121,16 +121,33 @@ async function topArtistsButton() {
   }
 
   async function setTrackHTML() {
-    let tracks = [];
-    setTrackParameters()
+    
+
+    await setTrackParameters()
     .then(resp => {
+      let tracks = [];
+      let tracksHTML = "";
+
       tracks.push(resp);
+      console.log("resp below");
+      console.log(resp[0]);
+      for (let i=0; i<resp.length; i++) {
+
+        let a = document.createElement('a');
+        let linkText = document.createTextNode(resp[i].title)
+        a.appendChild(linkText);
+        a.href = resp[i].href;
+        a.target = "_blank";
+        // tracksHTML += a;
+
+      }
+      document.getElementById("top-tracks-container").innerHTML = tracksHTML;
     })
     .catch(err => {
       console.log(err)
     })
-    console.log(tracks[0][0])
-    // document.getElementById("top-tracks").innerHTML = tracks[0];
+    
+    
   }
     
 
