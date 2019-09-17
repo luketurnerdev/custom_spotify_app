@@ -126,22 +126,23 @@ async function topArtistsButton() {
     await setTrackParameters()
     .then(resp => {
       let tracks = [];
-      let tracksHTML = "";
-
       tracks.push(resp);
       console.log("resp below");
-      console.log(resp[0]);
       for (let i=0; i<resp.length; i++) {
+        console.log(resp[i].title);
+        let item = document.createElement("li");
+        let itemText = document.createTextNode(resp[i].title);
+        item.appendChild(itemText);
 
-        let a = document.createElement('a');
-        let linkText = document.createTextNode(resp[i].title)
-        a.appendChild(linkText);
-        a.href = resp[i].href;
-        a.target = "_blank";
-        // tracksHTML += a;
+
+        // let a = document.createElement('a');
+        // let linkText = document.createTextNode(resp[i].title)
+        // a.appendChild(linkText);
+        // a.href = resp[i].href;
+        // a.target = "_blank";
+        document.getElementById("top-tracks-container").appendChild(item);
 
       }
-      document.getElementById("top-tracks-container").innerHTML = tracksHTML;
     })
     .catch(err => {
       console.log(err)
