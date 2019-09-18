@@ -100,6 +100,7 @@ async function topArtistsButton() {
       ("http://localhost:8888/user_data/top_tracks")
       .then(resp => {
         topTracks = resp.data;
+        console.log(resp.data);
       })
       .catch(err => {
         console.log(err);
@@ -111,7 +112,7 @@ async function topArtistsButton() {
             "title": track.name,
             "artist": track.artists[0].name,
             "album": track.album.name,
-            "link": track.href,
+            "link": track.external_urls.spotify,
             "popularity": track.popularity
           })
       });
@@ -128,16 +129,21 @@ async function topArtistsButton() {
       tracks.push(resp);
       console.log("resp below");
       let container = document.getElementById("top-tracks-container");
-      // container.innerHTML = "";
+      console.log(resp);
       for (let i=0; i<resp.length; i++) {
         //Title
-        let item = document.createElement("li");
+        let a = document.createElement('a');
+        a.href = resp[i].link;
         let itemText = document.createTextNode(resp[i].title);
-        item.appendChild(itemText);
+        a.appendChild(itemText);
+
+        let item = document.createElement("li");
+        let newLine = document.createElement("br");
+        item.appendChild(a);
+        item.appendChild(newLine);
         
         //Artist
         let artist = document.createTextNode(resp[i].artist);
-        item.appendChild(document.createTextNode("br"));
         item.appendChild(artist);
         container.appendChild(item);
       }
@@ -146,12 +152,7 @@ async function topArtistsButton() {
       console.log(err)
     })
 
-    //Toggle display
-    if (!container.innerHTML) {
-      container.appendChild(artistList);
-    } else {
-      container.innerHTML = ""
-    }
+
     
     
   }
