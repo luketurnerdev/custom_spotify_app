@@ -41,9 +41,6 @@ async function topArtistsButton() {
     console.log(err);
   })
 
-  console.log(artistArray[0].name);
-
-  
   //Handle response in html
   
   let container = document.getElementById('top-artists-container');
@@ -122,19 +119,18 @@ async function topArtistsButton() {
 
   async function setTrackHTML() {
     
-
+    
+    let trackList = document.createElement("ol");
     await setTrackParameters()
     .then(resp => {
-      let tracks = [];
-      tracks.push(resp);
-      console.log("resp below");
-      let container = document.getElementById("top-tracks-container");
-      console.log(resp);
+
       for (let i=0; i<resp.length; i++) {
+
         //Title
         let a = document.createElement('a');
         a.href = resp[i].link;
         let itemText = document.createTextNode(resp[i].title);
+        a.target = "_blank";
         a.appendChild(itemText);
 
         let item = document.createElement("li");
@@ -145,13 +141,26 @@ async function topArtistsButton() {
         //Artist
         let artist = document.createTextNode(resp[i].artist);
         item.appendChild(artist);
-        container.appendChild(item);
+
+        trackList.appendChild(item);
+
+       
       }
     })
     .catch(err => {
       console.log(err)
     })
 
+    let container = document.getElementById('top-tracks-container');
+     //Toggle display
+     if (!container.innerHTML) {
+      container.appendChild(trackList);
+
+    } else {
+      container.innerHTML = ""
+    }
+
+    
 
     
     
