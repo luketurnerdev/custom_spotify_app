@@ -134,13 +134,19 @@ async function topArtistsButton() {
         a.appendChild(itemText);
 
         let item = document.createElement("li");
-        let newLine = document.createElement("br");
         item.appendChild(a);
-        item.appendChild(newLine);
+        item.appendChild(document.createElement("br"));
         
         //Artist
         let artist = document.createTextNode(resp[i].artist);
         item.appendChild(artist);
+        item.appendChild(document.createElement("br"));
+
+
+        //Popularity
+        let popularity = document.createTextNode("Popularity: " + resp[i].popularity + " /100");
+        item.appendChild(popularity);
+
 
         trackList.appendChild(item);
 

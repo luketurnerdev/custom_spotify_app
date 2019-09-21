@@ -28,10 +28,9 @@ export async function viewPlaylists(req, res, next) {
             config
             )
         
-        console.log(playlistsRetrieved);
-
         let playlists = response.data.items;        
         let container = document.getElementById('playlist-container')
+        let lists = document.createElement("ol");
         for (let i=0; i<playlists.length; i++) {
         
             //Create playlist link
@@ -44,16 +43,23 @@ export async function viewPlaylists(req, res, next) {
             //Add to list
             let newPlaylist = document.createElement("li");
             newPlaylist.appendChild(a);
-            container.appendChild(newPlaylist);
+            lists.appendChild(newPlaylist);
     
             //Add delete button
             let deleteButton = document.createElement('button');
             deleteButton.textContent = `Delete Playlist`;
             deleteButton.id = playlists[i].id;
-            newPlaylist.appendChild(deleteButton);
-            document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
+            // newPlaylist.appendChild(deleteButton);
+            // document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
 
          }       
+        
+         //Toggle display
+        if (!container.innerHTML) {
+            container.appendChild(lists);
+        } else {
+            container.innerHTML = ""
+        }
   
 }
 
