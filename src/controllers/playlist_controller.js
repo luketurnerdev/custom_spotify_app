@@ -43,14 +43,15 @@ export async function viewPlaylists(req, res, next) {
             //Add to list
             let newPlaylist = document.createElement("li");
             newPlaylist.appendChild(a);
-            lists.appendChild(newPlaylist);
     
             //Add delete button
             let deleteButton = document.createElement('button');
             deleteButton.textContent = `Delete Playlist`;
             deleteButton.id = playlists[i].id;
-            // newPlaylist.appendChild(deleteButton);
-            // document.getElementById(deleteButton.id).addEventListener('click', deletePlaylist);
+            deleteButton.addEventListener('click', deletePlaylist);
+            newPlaylist.appendChild(deleteButton);
+            lists.appendChild(newPlaylist);
+
 
          }       
         
