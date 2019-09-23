@@ -71,8 +71,7 @@ async function topArtistsButton() {
   //GET to user_data/top_tracks
   async function getTopTracks(req, res) {
     let accessToken = req.cookies.tokens.access_token;
-    // findUserByToken
-    config = {
+     config = {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
@@ -117,31 +116,67 @@ async function topArtistsButton() {
       return tracks;
   }
 
-async function generateReccomendations() {
+  //GET to /user_data/reccomendations
+    function generateReccomendations(req, res) {
+    let accessToken = req.cookies.tokens.access_token;
+    let topTracks = [];
+    config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+   
+    axios.get(
+      "https://api.spotify.com/v1/me/top/tracks?time_range=long_term",
+      config
+    )
+    .then (resp  => {
+      topTracks = (resp.data.items);
+      let seedTracks = [];
+      //Put the URIs in an array of seeds
+  
+      for (let i=0; i<5; i++) {
+        seedTracks.push(topTracks[i].id);
+      }
 
-      //Get top tracks first
-      let topTracks = [];
-      await axios.get
-      ("http://localhost:8888/user_data/top_tracks")
+      config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+      
+      axios.get(
+      `https://api.spotify.com/v1/recommendations?seed_tracks=${seedTracks}`,
+      config
+      )
       .then(resp => {
-        topTracks = resp.data;
+        // res.json(resp.data.tracks.length);
+        let topTracks = resp.data.tracks;
+        let reccomendations = [];
+
+        topTracks.forEach((track) => {
+
+          reccomendations.push({
+            "title": track.name,
+            "artist": track.artists[0].name,
+            "album": track.album.name,
+            "link": track.external_urls.spotify,
+            "popularity": track.popularity,
+            "uri": track.uri
+          })
+      });
+
+      res.json(reccomendations);
+
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       })
 
-      let seedTracks = [];
-    //Put the URIs in an array of seeds
-
-    for (let i=0; i<5; i++) {
-      seedTracks.push(topTracks[i].id);
-    }
-
-    res.json('hello');
-
-      //Generate reccomendations based on top tracks
-
-
+    })
+    .catch(err => {
+      console.log(err)
+    })
 
 }
 
