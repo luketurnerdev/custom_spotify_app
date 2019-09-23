@@ -4,15 +4,7 @@ const axios = require('axios');
 const findUserByToken = require("./_findUserByToken");
 
 async function homepage(req, res) {
-  try {
-    const response = await axios.get('/users/me');
-    console.log(response);
-    res.json(response);
-  } catch (error) {
-    console.error(error);
-  }
   res.render("pages/homepage")
-
 }
 function register(req, res) {
   res.render("pages/register");

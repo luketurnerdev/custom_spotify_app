@@ -180,6 +180,55 @@ async function topArtistsButton() {
 
 }
 
+//Reccomendations button
+async function reccomendationsButton() {
+  await axios.get("/user_data/reccomendations")
+  .then (resp => {
+    let list = HTMLSet(resp);
+  })
+  .catch(err => {
+    console.log(err);
+  })
+
+  let container = document.getElementById('reccomendations-container');
+  //Toggle display
+  if (!container.innerHTML) {
+   container.appendChild(trackList);
+ } else {
+   container.innerHTML = ""
+ }
+}
+
+function HTMLSet(resp) {
+  let trackList = document.createElement("ol");
+
+  for (let i =0; i< resp.length; i++ ) {
+
+    //Title
+    let a = document.createElement('a');
+    a.href = resp[i].link;
+    let itemText = document.createTextNode(resp[i].title);
+    a.target = "_blank";
+    a.appendChild(itemText);
+
+    let item = document.createElement("li");
+    item.appendChild(a);
+    item.appendChild(document.createElement("br"));
+    
+    //Artist
+    let artist = document.createTextNode(resp[i].artist);
+    item.appendChild(artist);
+    item.appendChild(document.createElement("br"));
+
+    //Popularity
+    let popularity = document.createTextNode("Popularity: " + resp[i].popularity + " /100");
+    item.appendChild(popularity);
+    trackList.appendChild(item); 
+  }
+
+  return trackList;
+}
+
 async function calculateAveragePopularity() {
     let popularityRating = 0;
       await setTrackParameters()
@@ -194,6 +243,7 @@ async function calculateAveragePopularity() {
     return popularityRating;
   }
 
+  //Top tracks button
   async function setTrackHTML() {
     
     let trackList = document.createElement("ol");
@@ -253,6 +303,7 @@ async function calculateAveragePopularity() {
   module.exports = {
     getTopArtists,
     getTopTracks,
+    reccomendationsButton,
     topArtistsButton,
     setTrackHTML,
     generateReccomendations
