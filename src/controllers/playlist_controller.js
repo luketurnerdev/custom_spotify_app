@@ -109,11 +109,7 @@ async function deletePlaylist() {
   
     //Remove the HTML
     let deletedPlaylist = document.getElementById(this.id);
-    deletedPlaylist.parentNode.removeChild(deletedPlaylist);
-  
-    // var element = document.getElementById(elementId);
-    //   element.parentNode.removeChild(element);
-  
+    deletedPlaylist.parentNode.removeChild(deletedPlaylist);  
     } else {
       console.log('not deleted');
     }

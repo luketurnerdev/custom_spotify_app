@@ -22,7 +22,6 @@ async function getTopArtists(req, res) {
       config
       )
       .then (resp  => {
-        console.log(resp.data)
         res.json(resp.data);
     })
     .catch(err => {
@@ -72,6 +71,7 @@ async function topArtistsButton() {
   //GET to user_data/top_tracks
   async function getTopTracks(req, res) {
     let accessToken = req.cookies.tokens.access_token;
+    // findUserByToken
     config = {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -92,17 +92,17 @@ async function topArtistsButton() {
   }
 
   async function setTrackParameters() {
-    let topTracks = [];
+      let topTracks = [];
       await axios.get
       ("http://localhost:8888/user_data/top_tracks")
       .then(resp => {
         topTracks = resp.data;
-        console.log(resp.data);
       })
       .catch(err => {
         console.log(err);
       })
       let tracks = []
+
 
       topTracks.forEach((track) => {
           tracks.push({
@@ -113,17 +113,58 @@ async function topArtistsButton() {
             "popularity": track.popularity
           })
       });
-
+      
       return tracks;
+  }
+
+async function generateReccomendations() {
+
+      //Get top tracks first
+      let topTracks = [];
+      await axios.get
+      ("http://localhost:8888/user_data/top_tracks")
+      .then(resp => {
+        topTracks = resp.data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
+      let seedTracks = [];
+    //Put the URIs in an array of seeds
+
+    for (let i=0; i<5; i++) {
+      seedTracks.push(topTracks[i].id);
+    }
+
+    res.json('hello');
+
+      //Generate reccomendations based on top tracks
+
+
+
+}
+
+async function calculateAveragePopularity() {
+    let popularityRating = 0;
+      await setTrackParameters()
+      .then(resp => {
+        resp.forEach((track) => {
+          popularityRating += track.popularity;
+        })
+
+      })
+    popularityRating /= tracks.length;
+    console.log(popularityRating);
+    return popularityRating;
   }
 
   async function setTrackHTML() {
     
-    
     let trackList = document.createElement("ol");
     await setTrackParameters()
     .then(resp => {
-
+      //Get tracklist info 
       for (let i=0; i<resp.length; i++) {
 
         //Title
@@ -146,11 +187,7 @@ async function topArtistsButton() {
         //Popularity
         let popularity = document.createTextNode("Popularity: " + resp[i].popularity + " /100");
         item.appendChild(popularity);
-
-
-        trackList.appendChild(item);
-
-       
+        trackList.appendChild(item);  
       }
     })
     .catch(err => {
@@ -161,10 +198,14 @@ async function topArtistsButton() {
      //Toggle display
      if (!container.innerHTML) {
       container.appendChild(trackList);
-
     } else {
       container.innerHTML = ""
     }
+
+    let avgPop = document.createElement("p");
+    let popText = document.createTextNode(calculateAveragePopularity());
+    avgPop.appendChild(popText);
+    document.body.appendChild(avgPop);
 
     
 
@@ -178,5 +219,6 @@ async function topArtistsButton() {
     getTopArtists,
     getTopTracks,
     topArtistsButton,
-    setTrackHTML
+    setTrackHTML,
+    generateReccomendations
 }

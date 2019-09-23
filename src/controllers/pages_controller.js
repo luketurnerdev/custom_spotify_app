@@ -1,18 +1,27 @@
 // GET to "/"
 // Show homepage
+const axios = require('axios');
+const findUserByToken = require("./_findUserByToken");
 
-function homepage(req, res) {
-  console.log(req.cookies.tokens)
+async function homepage(req, res) {
+  try {
+    const response = await axios.get('/users/me');
+    console.log(response);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+  }
   res.render("pages/homepage")
+
 }
 function register(req, res) {
-  res.render("pages/register")
+  res.render("pages/register");
 }
 
 function logout(req, res) {
   console.log('inside')
   res.clearCookie("tokens");
-  res.redirect("pages/register")
+  res.redirect("pages/register");
 }
 
 module.exports = {
