@@ -17,7 +17,14 @@ router.get("/register", pagesController.register);
 
 // GET to /auth/callback
 // The app returns here after redirection from spotify auth
-router.get("/callback", authController.spotifyCallback);
+router.get(
+  "/callback", passport.authenticate('spotify'), {failureRedirect: 'auth/register'},
+  function(req, res) {
+    // Successful auth, redirect to home
+    res.redirect("/");
+  }
+);
+  //  authController.spotifyCallback);
 
 module.exports = router;
 

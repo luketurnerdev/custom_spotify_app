@@ -16,7 +16,27 @@ const cors = require('cors');
 const querystring = require('querystring');
 const path = require('path');
 const exphbs = require("express-handlebars");
+const passport = require('passport');
 require("./src/database/connect");
+//Enable use of process.env
+require("dotenv").config();
+
+const SpotifyStrategy = require('passport-spotify').Strategy;
+
+passport.use(
+  new SpotifyStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: 'http://localhost:8888/auth/callback'
+    },
+    function(accessToken, refreshToken, expires_in, profile, done) {
+    User.findOrCreate({ spotify_uid: profile.id }, function(err, user) {
+        return done(err, user);
+      });
+    }
+  )
+);
 
 app.use(cookieParser());
 
@@ -25,8 +45,7 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.set('views', path.join(__dirname, '/src/views'));
 
-//Enable use of process.env
-require("dotenv").config();
+
 
 // Routes from /routes
 app.use(require("./src/routes"));

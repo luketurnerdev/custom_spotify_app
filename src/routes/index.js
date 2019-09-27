@@ -3,11 +3,12 @@ const router = express.Router();
 const authRoutes = require("./auth_routes");
 const usersRoutes = require("./users_routes");
 const userDataRoutes = require("./user_data_routes");
-
-
 const pagesController = require("./../controllers/pages_controller")
+const passport = require('passport');
 
-router.get("/", pagesController.homepage);
+
+//Root (authenticate with spotify strategy)
+router.get("/", passport.authenticate('spotify'), pagesController.homepage);
 
 // Auth routes
 router.use("/auth", authRoutes);
