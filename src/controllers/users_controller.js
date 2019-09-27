@@ -38,6 +38,11 @@ async function getUser(req, res, next) {
     console.log(err);
   })
 }
+
+async function createOrUpdate(req, res) {
+  
+}
+
 async function getAllUsers(req, res) {
   User.find()
     .then(users => res.json(users))

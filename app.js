@@ -19,6 +19,7 @@ const exphbs = require("express-handlebars");
 const passport = require('passport');
 const User = require("./src/database/models/user_model.js");
 const SpotifyStrategy = require('passport-spotify').Strategy;
+const usersController = require("./src/controllers/users_controller");
 
 require("./src/database/connect");
 require("dotenv").config();
@@ -43,9 +44,12 @@ passport.use(
       callbackURL: 'http://localhost:8888/auth/callback'
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
-    User.find({ spotify_uid: profile.id }, function(err, user) {
+    const result = User.find({ spotify_uid: profile.id }, function(err, user) {
+        //can access tokens here
         return done(err, user);
       });
+
+
     }
   )
 );
