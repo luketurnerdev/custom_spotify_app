@@ -44,6 +44,13 @@ async function getAllUsers(req, res) {
     .catch(err => res.status(400).json("Error " + err ))
 }
 
+// async function findOrCreate(req, res) {
+//   //Look for the user by the x
+//   //if not found, create it
+
+//   const user = User.find(spotify_uid: )
+// }
+
 // PUT to "/auth/register"
 // Update the user's tokens in the database.
 async function updateTokens(id, newValues) {

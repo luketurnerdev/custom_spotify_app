@@ -8,7 +8,7 @@
  */
 
 const cookieParser = require('cookie-parser');
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const express = require('express'); // Express web server framework
 const app = express();
 const request = require('request'); // "Request" library
@@ -17,11 +17,23 @@ const querystring = require('querystring');
 const path = require('path');
 const exphbs = require("express-handlebars");
 const passport = require('passport');
+const User = require("./src/database/models/user_model.js");
+const SpotifyStrategy = require('passport-spotify').Strategy;
+
 require("./src/database/connect");
-//Enable use of process.env
 require("dotenv").config();
 
-const SpotifyStrategy = require('passport-spotify').Strategy;
+//Passport auth stuff
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 passport.use(
   new SpotifyStrategy(
@@ -31,7 +43,7 @@ passport.use(
       callbackURL: 'http://localhost:8888/auth/callback'
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
-    User.findOrCreate({ spotify_uid: profile.id }, function(err, user) {
+    User.find({ spotify_uid: profile.id }, function(err, user) {
         return done(err, user);
       });
     }

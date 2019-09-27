@@ -10,6 +10,8 @@ const passport = require('passport');
 //Root (authenticate with spotify strategy)
 router.get("/", passport.authenticate('spotify'), pagesController.homepage);
 
+router.get("/dashboard", pagesController.dashboard);
+
 // Auth routes
 router.use("/auth", authRoutes);
 
