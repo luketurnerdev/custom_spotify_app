@@ -16,21 +16,18 @@ function(req, res) {
   //redirect occurs, so this function will not be called
 });
 
+router.get("/logout", function(req, res) {
+  req.logout();
+  res.redirect("/auth/loggedout");
+});
+
+router.get("/loggedout", pagesController.loggedOut);
+
 // Register page
 router.get("/register", pagesController.register);
 
 //Update a user's tokens
 // router.put("/register", usersController.updateTokens);
-
-// GET to /auth/callback
-// The app returns here after redirection from spotify auth
-// router.get("/callback",
-//  passport.authenticate('spotify'), {failureRedirect: 'auth/register'},
-//   function(req, res) {
-//     // Successful auth, redirect to home
-//     res.redirect("/");
-//   }
-// );
 
 router.get(
   "/callback", passport.authenticate('spotify', {failureRedirect: "/auth/register"}),

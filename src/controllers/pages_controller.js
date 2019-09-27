@@ -19,8 +19,13 @@ function logout(req, res) {
   res.redirect("pages/register");
 }
 
+function loggedOut(req, res) {
+  res.render("pages/loggedout");
+}
+
 module.exports = {
     homepage,
+    loggedOut,
     register,
     dashboard,
     logout
