@@ -9,12 +9,13 @@ const passport = require('passport');
 
 // GET to /auth/login
 // Spotify login redirection
-router.get("/login", passport.authenticate('spotify', {
-  scope: ['playlist-modify-public', 'user-top-read', 'user-read-email', 'user-read-private', 'user-read-birthdate']
-}),
-function(req, res) {
-  //redirect occurs, so this function will not be called
-});
+// router.get("/login", passport.authenticate('spotify', {
+//   scope: ['playlist-modify-public', 'user-top-read', 'user-read-email', 'user-read-private', 'user-read-birthdate']
+// }),
+// function(req, res) {
+//   //redirect occurs, so this function will not be called
+// });
+router.get("/login", authController.spotifyRedirection);
 
 router.get("/logout", function(req, res) {
   req.logout();
@@ -29,12 +30,14 @@ router.get("/register", pagesController.register);
 //Update a user's tokens
 // router.put("/register", usersController.updateTokens);
 
-router.get(
-  "/callback", passport.authenticate('spotify', {failureRedirect: "/auth/register"}),
-  function(req, res) {
-    res.redirect("/dashboard");
-  }
-);
+// router.get(
+//   "/callback", passport.authenticate('spotify', {failureRedirect: "/auth/register"}),
+//   function(req, res) {
+//     res.redirect("/dashboard");
+//   }
+// );
+
+router.get("/callback", authController.spotifyCallback);
   //  authController.spotifyCallback);
 
 module.exports = router;

@@ -101,7 +101,7 @@ async function spotifyCallback(req,res) {
 
 
   res.clearCookie(stateKey);
-  res.redirect(`${process.env.BACKEND_URI}/`);
+  res.redirect(`${process.env.BACKEND_URI}/dashboard`);
 
 }
 
