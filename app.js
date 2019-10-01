@@ -25,34 +25,35 @@ require("./src/database/connect");
 require("dotenv").config();
 
 //Passport auth stuff
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
+// passport.serializeUser(function(user, done) {
+//   done(null, user);
+// });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
+// passport.deserializeUser(function(user, done) {
+//   done(null, user);
+// });
 
-passport.use(
-  new SpotifyStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: 'http://localhost:8888/auth/callback'
-    },
-    function(accessToken, refreshToken, expires_in, profile, done) {
-    const result = User.find({ spotify_uid: profile.id }, function(err, user) {
-        //can access tokens here
-        return done(err, user);
-      });
+// passport.use(
+//   new SpotifyStrategy(
+//     {
+//       clientID: process.env.CLIENT_ID,
+//       clientSecret: process.env.CLIENT_SECRET,
+//       callbackURL: 'http://localhost:8888/auth/callback'
+//     },
+//     function(accessToken, refreshToken, expires_in, profile, done) {
+//     const result = User.find({ spotify_uid: profile.id }, function(err, user) {
+//         //can access tokens here
+
+//         return done(err, user);
+//       });
 
 
-    }
-  )
-);
+//     }
+//   )
+// );
 
 app.use(cookieParser());
 
