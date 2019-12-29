@@ -21,6 +21,7 @@ const ViewTopTracks = () => {
         //Display top tracks to the user
         for (let i=0; i<response.items.length; i++){
     
+          console.log(response.items[i]);
           let newTrack = document.createElement("li");
           document.getElementById("tracks-container").appendChild(newTrack);
           newTrack.innerHTML = "Track: " + response.items[i].name + " , Artist: " + response.items[i].artists[0].name;

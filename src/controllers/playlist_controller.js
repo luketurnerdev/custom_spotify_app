@@ -2,7 +2,7 @@ const axios = require("axios");
 const usersController = require("./users_controller")
 
 let accessToken = ""
-let userID = ""
+var userID = ""
 export async function viewPlaylists(req, res, next) {
     let playlistsRetrieved = false;
     const userInfo = await axios.get("http://localhost:8888/users/me")

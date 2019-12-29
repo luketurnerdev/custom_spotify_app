@@ -1,4 +1,5 @@
 const User = require("./../database/models/user_model");
+const fbDataAnalysis = require("./../fb-data/analysis");
 const axios = require("axios");
 const findUserByToken = require("./_findUserByToken");
 
@@ -68,6 +69,15 @@ async function topArtistsButton() {
 
   }
 
+  async function fbDataButton() {
+    //1. Access the local file and import the 'spotifyTracks' array
+    //2. Do API call for playlist generation with this array 
+    let tracks = fbDataAnalysis.spotifyTracks;
+    console.log('debugging tracks:')
+    console.log(tracks);
+
+  }
+
   //GET to user_data/top_tracks
   async function getTopTracks(req, res) {
     let accessToken = req.cookies.tokens.access_token;
@@ -82,6 +92,7 @@ async function topArtistsButton() {
       config
       )
       .then (resp  => {
+        console.log(resp.data);
         res.json(resp.data.items);
     })
     .catch(err => {
@@ -91,10 +102,12 @@ async function topArtistsButton() {
   }
 
   async function setTrackParameters() {
+    console.log('inside');
       let topTracks = [];
       await axios.get
       ("http://localhost:8888/user_data/top_tracks")
       .then(resp => {
+        console.log(topTracks);
         topTracks = resp.data;
       })
       .catch(err => {
@@ -252,6 +265,7 @@ async function calculateAveragePopularity() {
       //Get tracklist info 
       for (let i=0; i<resp.length; i++) {
 
+        console.log(resp);
         //Title
         let a = document.createElement('a');
         a.href = resp[i].link;
@@ -303,6 +317,7 @@ async function calculateAveragePopularity() {
   module.exports = {
     getTopArtists,
     getTopTracks,
+    fbDataButton,
     reccomendationsButton,
     topArtistsButton,
     setTrackHTML,
