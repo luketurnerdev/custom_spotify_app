@@ -69,12 +69,25 @@ async function topArtistsButton() {
 
   }
 
-  async function fbDataButton() {
+  async function fbDataButton(req, res) {
     //1. Access the local file and import the 'spotifyTracks' array
     //2. Do API call for playlist generation with this array 
     let tracks = fbDataAnalysis.spotifyTracks;
-    console.log('debugging tracks:')
-    console.log(tracks);
+
+    let accessToken = req.cookies.tokens.access_token;
+    const config = {
+     headers: {
+       Authorization: `Bearer ${accessToken}`
+     }
+   }
+
+   let fbPlaylist = await axios.post(
+    "https://api.spotify.com/v1/users/1237320388/playlists",
+    config
+    )
+    .then(resp => {
+      console.log(resp);
+    })
 
   }
 

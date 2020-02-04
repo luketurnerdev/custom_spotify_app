@@ -33,8 +33,6 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.set('views', path.join(__dirname, '/src/views'));
 
-
-
 // Routes from /routes
 app.use(require("./src/routes"));
 

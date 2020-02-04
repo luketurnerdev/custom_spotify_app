@@ -91,7 +91,7 @@ async function spotifyCallback(req,res) {
     usersController.updateTokens(userData.id, newValues);
 
   }
-
+  res.cookie("accessToken",tokens.access_token );
   res.cookie("tokens", {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token
